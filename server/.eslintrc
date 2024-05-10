@@ -4,7 +4,6 @@
   "parserOptions": {
     "project": ["server/tsconfig.json"]
   },
-  "extends": "airbnb-typescript/base",
   "plugins": ["import", "@typescript-eslint"],
   "rules": {
     "comma-dangle": 0,

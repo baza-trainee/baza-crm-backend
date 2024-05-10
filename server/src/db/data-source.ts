@@ -7,9 +7,9 @@ export const AppDataSource = new DataSource({
   username: 'admin',
   password: 'admin',
   database: 'crm',
-  synchronize: true,
+  synchronize: process.env.NODE_ENV === 'production' ? false : true,
   logging: true,
-  entities: [],
+  entities: ['**/*.entity.*'],
   subscribers: [],
   migrations: [],
 });
