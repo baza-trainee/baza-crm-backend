@@ -12,4 +12,6 @@ export const AppDataSource = new DataSource({
   entities: ['**/*.entity.*'],
   subscribers: [],
   migrations: [],
+  // on schema conflict uncomment !! db cleared
+  // dropSchema: process.env.NODE_ENV === 'production' ? false : true,
 });
