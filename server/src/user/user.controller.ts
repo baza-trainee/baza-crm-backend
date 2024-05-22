@@ -1,12 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import controllerWrapper from '../decorators/controller-wrapper';
 import { findById } from './user.service';
 
-const findUserById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const findUserById = async (req: Request, res: Response) => {
   const user = await findById(Number(req.params.id));
   return res.json({ user });
 };

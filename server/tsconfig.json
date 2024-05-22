@@ -10,12 +10,14 @@
     "strict": true,
     "skipLibCheck": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "typeRoots": ["./src/types"]
   },
   "parserOptions": {
     "project": "server/tsconfig.json",
     "tsconfigRootDir": "server",
     "sourceType": "module"
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "files": ["src/types/express.d.ts"]
 }
