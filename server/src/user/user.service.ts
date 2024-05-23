@@ -1,5 +1,7 @@
 import { AppDataSource } from '../db/data-source';
 import { User } from './user.entity';
+import { IUserRegister } from './user.types';
+
 const userRepository = AppDataSource.getRepository(User).extend({
   findUserWithPassword(email: string) {
     return this.createQueryBuilder('user')
@@ -11,10 +13,35 @@ const userRepository = AppDataSource.getRepository(User).extend({
   },
 });
 
+export const createUser = async (data: IUserRegister) => {
+  const { email, password } = data;
+
+  const newUser = new User();
+  newUser.email = email;
+  newUser.password = password;
+
+  const result = await userRepository.save(newUser);
+
+  if (result === null) throw new Error('Something went wrong');
+  return result;
+};
+
 export const findById = async (userId: number) => {
   const result = await userRepository.findOneBy({ id: userId });
   if (result === null) throw new Error('User not found');
   return result;
+};
+
+export const findByEmail = async (email: string) => {
+  const result = await userRepository.findOneBy({ email });
+  if (result === null) throw new Error('User not found');
+  console.log(result);
+  return result;
+};
+
+export const existByEmail = async (email: string) => {
+  const result = await userRepository.findOneBy({ email });
+  if (result) throw new Error('Email in use');
 };
 
 export const findWithPassword = async (email: string) => {
