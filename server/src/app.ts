@@ -3,10 +3,9 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
-import { notFound } from './middlewares/not-found';
+import { notFound } from './shared/not-found';
 import { errorHandler } from './error-handlers/error-handler';
 import Router from './router';
-import { getUserJWT } from './shared/getUserJWT';
 
 const app = express();
 

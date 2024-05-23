@@ -2,7 +2,7 @@ import { Router } from 'express';
 import validator from '../validator/validator';
 import { getUserByIdParamSchema } from './user.schemas';
 import userController from './user.controller';
-import { getUserJWT } from '../shared/getUserJWT';
+import { getUserJWT } from '../shared/middlewares/getUserJWT';
 
 const userRouter = Router();
 userRouter.use(getUserJWT);

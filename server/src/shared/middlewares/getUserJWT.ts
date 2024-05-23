@@ -11,7 +11,6 @@ export const getUserJWT = async (
   next: NextFunction,
 ) => {
   const { authorization } = req.headers;
-
   if (!authorization) {
     return next(new Error('Not authorized'));
   }
@@ -21,7 +20,6 @@ export const getUserJWT = async (
   }
   try {
     const user = jwt.verify(token, JWT_SECRET);
-
     req.user = user;
     next();
   } catch (error) {
