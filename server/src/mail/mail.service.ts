@@ -1,45 +1,65 @@
 import nodemailer from 'nodemailer';
+import { ILetter } from './mail.types';
 
-const { PASSWORD_EMAIL, USER_EMAIL } = process.env;
+const {
+  SMTP_PASSWORD,
+  SMTP_USER,
+  BASE_URL,
+  SMTP_PORT,
+  SMTP_SECURE,
+  SMTP_HOST,
+  SMTP_FROM,
+} = process.env;
 
 const nodemailerConfig = {
-  host: 'smtp.ukr.net', // change
-  port: 465,
-  secure: true,
+  host: SMTP_HOST,
+  port: Number(SMTP_PORT),
+  secure: Boolean(SMTP_SECURE),
   auth: {
-    user: USER_EMAIL,
-    pass: PASSWORD_EMAIL,
+    user: SMTP_USER,
+    pass: SMTP_PASSWORD,
+  },
+  tls: {
+    rejectUnauthorized: false,
   },
 };
 
 const transporter = nodemailer.createTransport(nodemailerConfig);
 
-const sendEmail = async (data: any) =>
-  await transporter.sendMail({ ...data, from: USER_EMAIL });
+const sendEmail = async (letter: ILetter) =>
+  await transporter.sendMail({ ...letter, from: SMTP_FROM });
 
-export const sendVerificationEmail = async (email: string) => {
+export const sendVerificationEmail = async (email: string, link: string) => {
   const letter = {
     to: email,
     subject: 'Verify email',
-    html: `<h2>Hi ${email},</h2>
+    html: `<h2>Hi, ${email}.</h2>
     <p>We just need to verify your email address before you can access.</p>
     <p>Click below to verify your email address</p>
-    <a target="_blank" href="">Click here</a>
-    <p>Thanks!</p>`, // change
+    <a target="_blank" href="${BASE_URL}${link}">Click here</a> 
+    <p>Regards, Baza Trainee Ukraine</p>
+    <p>Thanks!</p>
+`,
   };
+
   await sendEmail(letter);
-  console.log("success");
+  console.log('success');
 };
 
-export const sendChangePWEmail = async (email: string) => {
+export const sendChangePWEmail = async (email: string, link: string) => {
   const letter = {
     to: email,
     subject: 'Change password',
-    html: `<a target="_blank" href="">Click here</a>`, // change
+    html: `<h2>Hi, ${email}.</h2>
+    <a target="_blank" href="${BASE_URL}${link}">Click here</a>
+    <p>Regards, Baza Trainee Ukraine</p>
+    <p>Thanks!</p>`,
   };
-  await sendEmail(letter);
+
+  try {
+    await sendEmail(letter);
     console.log('success');
-
+  } catch (error) {
+    throw new Error();
+  }
 };
-
-
