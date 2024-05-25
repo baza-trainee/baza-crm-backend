@@ -42,8 +42,12 @@ export const sendVerificationEmail = async (email: string, link: string) => {
 `,
   };
 
-  await sendEmail(letter);
-  console.log('success');
+  try {
+    await sendEmail(letter);
+    console.log('success');
+  } catch (error) {
+    throw new Error('Sorry, your message was not sent');
+  }
 };
 
 export const sendChangePWEmail = async (email: string, link: string) => {
@@ -60,6 +64,6 @@ export const sendChangePWEmail = async (email: string, link: string) => {
     await sendEmail(letter);
     console.log('success');
   } catch (error) {
-    throw new Error();
+    throw new Error('Sorry, your message was not sent');
   }
 };
