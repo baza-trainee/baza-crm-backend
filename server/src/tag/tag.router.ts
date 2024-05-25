@@ -13,27 +13,32 @@ const tagRouter = Router();
 tagRouter.use(getUserJWT);
 
 tagRouter.post(
-  '/tags',
+  '/',
   validator({ body: createTagSchema }),
   tagController.createTag
 );
 
 tagRouter.delete(
-  '/tags/:id',
+  '/:id',
   validator({ params: tagIdParamSchema }),
   tagController.deleteTag
 );
 
-tagRouter.put(
-  '/tags/:id',
+tagRouter.patch(
+  '/:id',
   validator({ params: tagIdParamSchema, body: editTagSchema }),
   tagController.editTag
 );
 
 tagRouter.post(
-  '/tags/addToUser',
+  '/addToUser',
   validator({ body: addTagToUserSchema }),
   tagController.addTagToUser
 );
 
-export default ['tag', tagRouter];
+tagRouter.get(
+  '/',
+  tagController.getAllTags
+);
+
+export default ['tags', tagRouter];
