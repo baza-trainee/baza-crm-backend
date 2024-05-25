@@ -1,11 +1,39 @@
 import { Router } from 'express';
-import * as tagController from '../tag/tag.controller';
+import validator from '../validator/validator';
+import tagController from '../tag/tag.controller';
+import { getUserJWT } from '../shared/middlewares/getUserJWT';
+import {
+  createTagSchema,
+  editTagSchema,
+  tagIdParamSchema,
+  addTagToUserSchema
+} from '../tag/tag.schemas';
 
-const router = Router();
+const tagRouter = Router();
+tagRouter.use(getUserJWT);
 
-router.post('/tags', tagController.createTag);
-router.delete('/tags/:id', tagController.deleteTag);
-router.put('/tags/:id', tagController.editTag);
-router.post('/tags/addToUser', tagController.addTagToUser);
+tagRouter.post(
+  '/tags',
+  validator({ body: createTagSchema }),
+  tagController.createTag
+);
 
-export default router;
+tagRouter.delete(
+  '/tags/:id',
+  validator({ params: tagIdParamSchema }),
+  tagController.deleteTag
+);
+
+tagRouter.put(
+  '/tags/:id',
+  validator({ params: tagIdParamSchema, body: editTagSchema }),
+  tagController.editTag
+);
+
+tagRouter.post(
+  '/tags/addToUser',
+  validator({ body: addTagToUserSchema }),
+  tagController.addTagToUser
+);
+
+export default ['tag', tagRouter];

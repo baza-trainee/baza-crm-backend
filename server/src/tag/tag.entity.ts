@@ -10,9 +10,15 @@ export class Tag {
     @Column()
     name!: string;
 
-    @ManyToMany(() => User, user => user.tags)
-    users!: User[];
+    @Column()
+    color!: string;
 
+    @Column()
+    is_specialization!: boolean;
+
+    @ManyToMany(() => User, (user) => user.tags)
+    users!: User[];
+    
     @ManyToMany(() => User, user => user.specializations)
     specializedUsers!: User[];
 

@@ -12,7 +12,7 @@ export class User {
   @Column({ select: false })
   password!: string;
 
-  @ManyToMany(() => Tag, tag => tag.users)
+  @ManyToMany(() => Tag, (tag) => tag.users)
   @JoinTable()
   tags!: Tag[];
 
