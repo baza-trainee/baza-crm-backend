@@ -10,4 +10,13 @@ export class User {
 
   @Column({ select: false })
   password!: string;
+
+  @Column({ nullable: true })
+  linkedin?: string;
+
+  @Column({ nullable: true })
+  name?: string;
+
+  @Column({ nullable: true })
+  emailReceiving?: string;
 }

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import validator from '../validator/validator';
-import { getUserByIdParamSchema } from './user.schemas';
+import * as UserSchema from './user.schemas';
 import userController from './user.controller';
 import { getUserJWT } from '../shared/middlewares/getUserJWT';
 
@@ -9,8 +9,14 @@ userRouter.use(getUserJWT);
 
 userRouter.get(
   '/:id',
-  validator({ params: getUserByIdParamSchema }),
+  validator({ params: UserSchema.getUserByIdParamSchema }),
   userController.findUserById,
+);
+
+userRouter.put(
+  '/',
+  validator({ body: UserSchema.updateUserSchema }),
+  userController.updateUser,
 );
 
 export default ['user', userRouter];

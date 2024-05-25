@@ -6,6 +6,7 @@ dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
 import app from './app';
 import { AppDataSource } from './db/data-source';
 
+console.log('===>', process.env.PORT);
 const port = process.env.PORT || 5000;
 
 const main = async () => {
