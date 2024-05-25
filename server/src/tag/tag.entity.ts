@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
 import { User } from '../user/user.entity';
 
+
 @Entity()
 export class Tag {
     @PrimaryGeneratedColumn()
