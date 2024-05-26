@@ -1,12 +1,14 @@
 import { AppDataSource } from '../db/data-source';
 import { Tag } from '../tag/tag.entity';
 import { User } from '../user/user.entity';
+import * as userService  from '../user/user.service';
 
 const tagRepository = AppDataSource.getRepository(Tag);
 
-export const createTag = async (name: string) => {
+export const createTag = async (name: string, color: string) => {
   const newTag = new Tag();
   newTag.name = name;
+  newTag.color = color;
 
   const result = await tagRepository.save(newTag);
 
@@ -18,34 +20,23 @@ export const deleteTag = async (id: number) => {
   return await tagRepository.delete(id);
 };
 
-export const editTag = async (id: number, newName: string) => {
+export const editTag = async (id: number, newName: string, newColor: string) => {
   const tag = await tagRepository.findOneBy({ id });
   if (!tag) throw new Error('Tag not found');
   tag.name = newName;
+  tag.color = newColor;
   return await tagRepository.save(tag);
 };
 
 export const addTagToUser = async (userId: number, tagId: number) => {
-  const userRepository = AppDataSource.getRepository(User);
-  const user = await userRepository.findOne({ where: { id: userId }, relations: ['tags'] });
+  const user = await userService.findByIdWithTags(userId);
+  if (!user) throw new Error('User not found');
+ 
   const tag = await tagRepository.findOneBy({ id: tagId });
-
-  if (!user || !tag) throw new Error('User or Tag not found');
+  if (!tag) throw new Error('Tag not found');
 
   user.tags.push(tag);
-  return await userRepository.save(user);
-};
-
-export const findByIdWithTags = async (userId: number) => {
-  const userRepository = AppDataSource.getRepository(User);
-  const user = await userRepository.findOne({
-    where: { id: userId },
-    relations: ['tags'],
-  });
-
-  if (!user) throw new Error('User not found');
-  
-  return user;
+  return await AppDataSource.getRepository(User).save(user);
 };
 
 export const getAllTags = async () => {

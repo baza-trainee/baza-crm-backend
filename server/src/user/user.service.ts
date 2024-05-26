@@ -49,3 +49,15 @@ export const findWithPassword = async (email: string) => {
   if (result === null) throw new Error('User not found');
   return result;
 };
+
+export const findByIdWithTags = async (userId: number) => {
+  const userRepository = AppDataSource.getRepository(User);
+  const user = await userRepository.findOne({
+    where: { id: userId },
+    relations: ['technologies', 'specializations'],
+  });
+
+  if (!user) throw new Error('User not found');
+  
+  return user;
+};
