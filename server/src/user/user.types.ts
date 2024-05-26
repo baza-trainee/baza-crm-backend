@@ -8,3 +8,9 @@ export interface IFindUserById {
   password?: string;
   token?: string;
 }
+
+export interface IUpdateUser {
+  linkedin?: string;
+  name?: string;
+  emailReceiving?: boolean;
+}
