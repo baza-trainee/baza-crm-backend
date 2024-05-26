@@ -8,6 +8,9 @@ const findUserById = async (req: Request, res: Response) => {
 };
 
 const updateUser = async (req: Request, res: Response) => {
+  if (!Object.keys(req.body).length) {
+    throw new Error('Empty update object');
+  }
   const updatedUser = await UserService.updateUser(req.user.id, req.body);
   return res.json({ updatedUser });
 };
