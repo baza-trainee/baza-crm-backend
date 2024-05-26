@@ -50,7 +50,6 @@ export const findWithPassword = async (email: string) => {
   return result;
 };
 
-//Метод апдейд юзера
 export const updateUser = async (
   userId: number,
   dataUpd: Partial<IUpdateUser>,

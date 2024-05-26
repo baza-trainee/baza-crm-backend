@@ -17,6 +17,6 @@ export class User {
   @Column({ nullable: true })
   name?: string;
 
-  @Column({ nullable: true })
-  emailReceiving?: string;
+  @Column({ default: true })
+  emailReceiving?: boolean;
 }

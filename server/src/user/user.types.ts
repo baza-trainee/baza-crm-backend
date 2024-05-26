@@ -12,5 +12,5 @@ export interface IFindUserById {
 export interface IUpdateUser {
   linkedin?: string;
   name?: string;
-  emailReceiving?: string;
+  emailReceiving?: boolean;
 }

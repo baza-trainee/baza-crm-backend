@@ -8,9 +8,6 @@ const findUserById = async (req: Request, res: Response) => {
 };
 
 const updateUser = async (req: Request, res: Response) => {
-  console.log('user-->', req.user);
-  console.log('userUpd-->', req.body);
-
   const updatedUser = await UserService.updateUser(req.user.id, req.body);
   return res.json({ updatedUser });
 };
