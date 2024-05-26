@@ -7,7 +7,7 @@ if (SALT === undefined) throw new Error();
 
 export const userRegistration = async (email: string, password: string) => {
   await userServices.existByEmail(email);
-  const hashPassword = await bcrypt.hash(password, SALT);
+  const hashPassword = await bcrypt.hash(password, Number(SALT));
   const data = { email, password: hashPassword };
   const newUser = await userServices.createUser(data);
 
