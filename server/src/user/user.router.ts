@@ -13,7 +13,6 @@ userRouter.get(
   userController.findUserById,
 );
 
-// .path - частичное обновление пользователя
 userRouter.patch(
   '/',
   validator({ body: UserSchema.updateUserSchema }),
