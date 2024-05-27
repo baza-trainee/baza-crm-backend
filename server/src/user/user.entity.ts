@@ -25,4 +25,13 @@ export class User {
   @ManyToMany(() => Tag)
   @JoinTable()
   specializations!: Tag[];
+
+  @Column({ nullable: true })
+  linkedin?: string;
+
+  @Column({ nullable: true })
+  name?: string;
+
+  @Column({ default: true })
+  emailReceiving?: boolean;
 }

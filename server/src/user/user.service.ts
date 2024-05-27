@@ -1,6 +1,6 @@
 import { AppDataSource } from '../db/data-source';
 import { User } from './user.entity';
-import { IUserRegister } from './user.types';
+import { IUserRegister, IUpdateUser } from './user.types';
 
 const userRepository = AppDataSource.getRepository(User).extend({
   findUserWithPassword(email: string) {
@@ -49,6 +49,7 @@ export const findWithPassword = async (email: string) => {
   if (result === null) throw new Error('User not found');
   return result;
 };
+
 // TODO rewrite to 2 methods one internal one external with only tags id
 export const findByIdWithTags = async (userId: number) => {
   const user = await userRepository.findOne({
@@ -59,3 +60,13 @@ export const findByIdWithTags = async (userId: number) => {
   if (!user) throw new Error('User not found');
   return user;
 };
+
+export const updateUser = async (
+  userId: number,
+  dataUpd: Partial<IUpdateUser>,
+) => {
+  await userRepository.update(userId, dataUpd);
+  const updatedUser = await findById(userId);
+  return updatedUser;
+};
+
