@@ -50,6 +50,17 @@ export const findWithPassword = async (email: string) => {
   return result;
 };
 
+// TODO rewrite to 2 methods one internal one external with only tags id
+export const findByIdWithTags = async (userId: number) => {
+  const user = await userRepository.findOne({
+    where: { id: userId },
+    relations: ['technologies', 'specializations'],
+  });
+
+  if (!user) throw new Error('User not found');
+  return user;
+};
+
 export const updateUser = async (
   userId: number,
   dataUpd: Partial<IUpdateUser>,
@@ -58,3 +69,4 @@ export const updateUser = async (
   const updatedUser = await findById(userId);
   return updatedUser;
 };
+
