@@ -37,3 +37,7 @@ export const userLogin = async (email: string, password: string) => {
   };
   return data;
 };
+
+export const getMe = async (id: number) => {
+  return await userServices.findByIdWithTags(id);
+};

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import validator from '../validator/validator';
 import { createUserSchema, loginUserSchema } from './auth.schemas';
 import authController from './auth.controller';
+import { getUserJWT } from '../shared/middlewares/getUserJWT';
 
 const authRouter = Router();
 
@@ -16,5 +17,7 @@ authRouter.post(
   validator({ body: loginUserSchema }),
   authController.login,
 );
+
+authRouter.post('/me', getUserJWT, authController.getMe);
 
 export default ['auth', authRouter];

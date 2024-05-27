@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import controllerWrapper from '../decorators/controller-wrapper';
 
-import { userLogin, userRegistration } from './auth.service';
+import * as authService from './auth.service';
 
 const register = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const newUser = await userRegistration(email, password);
+  const newUser = await authService.userRegistration(email, password);
 
   res.status(201).json('Success');
 };
@@ -13,12 +13,19 @@ const register = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  const user = await userLogin(email, password);
+  const user = await authService.userLogin(email, password);
 
   res.json(user);
+};
+
+const getMe = async (req: Request, res: Response) => {
+  const { id } = req.user;
+  const user = await authService.getMe(id);
+  return res.json(user)
 };
 
 export default {
   register: controllerWrapper(register),
   login: controllerWrapper(login),
+  getMe: controllerWrapper(getMe),
 };
