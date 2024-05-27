@@ -6,7 +6,6 @@ import {
   createTagSchema,
   editTagSchema,
   tagIdParamSchema,
-  addTagToUserSchema
 } from '../tag/tag.schemas';
 
 const tagRouter = Router();
@@ -19,20 +18,20 @@ tagRouter.post(
 );
 
 tagRouter.delete(
-  '/:id',
+  '/:tagId',
   validator({ params: tagIdParamSchema }),
   tagController.deleteTag
 );
 
 tagRouter.patch(
-  '/:id',
+  '/:tagId',
   validator({ params: tagIdParamSchema, body: editTagSchema }),
   tagController.editTag
 );
 
 tagRouter.post(
-  '/addToUser',
-  validator({ body: addTagToUserSchema }),
+  '/addTag/:tagId',
+  validator({ params: tagIdParamSchema }),
   tagController.addTagToUser
 );
 
@@ -41,4 +40,4 @@ tagRouter.get(
   tagController.getAllTags
 );
 
-export default ['tags', tagRouter];
+export default ['tag', tagRouter];
