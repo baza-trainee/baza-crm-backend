@@ -70,3 +70,11 @@ export const updateUser = async (
   return updatedUser;
 };
 
+export const linkDiscordToUser = async (userId: number, discordId: string) => {
+  const user = await findById(userId);
+  if (user.discord) {
+    throw new Error('Discord already linked');
+  }
+  user.discord = discordId;
+  await userRepository.save(user);
+};

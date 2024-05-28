@@ -15,7 +15,14 @@ const updateUser = async (req: Request, res: Response) => {
   return res.json({ updatedUser });
 };
 
+const linkDiscord = async (req: Request, res: Response) => {
+  const { userId, discordId } = req.query;
+  await UserService.linkDiscordToUser(Number(userId), String(discordId));
+  return res.json({ status: true });
+};
+
 export default {
   findUserById: controllerWrapper(findUserById),
   updateUser: controllerWrapper(updateUser),
+  linkDiscord: controllerWrapper(linkDiscord),
 };

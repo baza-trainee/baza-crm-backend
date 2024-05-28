@@ -19,4 +19,10 @@ userRouter.patch(
   userController.updateUser,
 );
 
+userRouter.post(
+  '/discord/',
+  validator({ query: UserSchema.linkDiscordSchema }),
+  userController.linkDiscord,
+);
+
 export default ['user', userRouter];

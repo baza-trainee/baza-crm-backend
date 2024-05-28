@@ -30,6 +30,9 @@ export class User {
   linkedin?: string;
 
   @Column({ nullable: true })
+  discord?: string;
+
+  @Column({ nullable: true })
   name?: string;
 
   @Column({ default: true })

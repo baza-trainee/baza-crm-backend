@@ -9,3 +9,8 @@ export const updateUserSchema = Joi.object().keys({
   name: Joi.string().optional(),
   emailReceiving: Joi.boolean().optional(),
 });
+
+export const linkDiscordSchema = Joi.object().keys({
+  userId: Joi.string().required(),
+  discordId: Joi.string().required(),
+});
