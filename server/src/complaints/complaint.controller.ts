@@ -8,27 +8,34 @@ const createComplaint = async (req: Request, res: Response) => {
 };
 
 const getAllComplaints = async (req: Request, res: Response) => {
-    const complaints = await complaintService.getAll();
-    res.json(complaints)
+  const complaints = await complaintService.getAll();
+  res.json(complaints);
 };
 
 const getByIdComplaint = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const complaints = await complaintService.getById(Number(id));
-    res.json(complaints);
+  const { id } = req.params;
+  const complaints = await complaintService.getById(Number(id));
+  res.json(complaints);
 };
 
-const setCheckedComplaint = async (req: Request, res: Response) => {};
+const setCheckedComplaint = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { isChecked } = req.body;
+
+  await complaintService.setChecked(Number(id), isChecked);
+
+  res.json('Changed');
+};
 
 const deleteComplaints = async (req: Request, res: Response) => {
   await complaintService.deleteItem(Number(req.params.id));
-  res.status(200).json('Deleted');
+  res.json('Deleted');
 };
 
 export default {
-    createComplaint: controllerWrapper(createComplaint),
-    getAllComplaints: controllerWrapper(getAllComplaints),
-    getByIdComplaint: controllerWrapper(getByIdComplaint),
-    setCheckedComplaint: controllerWrapper(setCheckedComplaint),
-    deleteComplaints:controllerWrapper(deleteComplaints),
+  createComplaint: controllerWrapper(createComplaint),
+  getAllComplaints: controllerWrapper(getAllComplaints),
+  getByIdComplaint: controllerWrapper(getByIdComplaint),
+  setCheckedComplaint: controllerWrapper(setCheckedComplaint),
+  deleteComplaints: controllerWrapper(deleteComplaints),
 };

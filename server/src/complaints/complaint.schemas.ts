@@ -13,3 +13,7 @@ export const createComplainSchema = Joi.object().keys({
 export const complaintIdSchema = Joi.object({
   id: Joi.number().required(),
 });
+
+export const complaintIsCheckedSchema = Joi.object({
+  isChecked: Joi.boolean(),
+});

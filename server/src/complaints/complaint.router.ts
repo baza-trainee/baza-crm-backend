@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import validator from '../validator/validator';
 import complaintsController from './complaint.controller';
-import { complaintIdSchema, createComplainSchema } from './complaint.schemas';
+import { complaintIdSchema, complaintIsCheckedSchema, createComplainSchema } from './complaint.schemas';
 
 const complaintRouter = Router();
 
@@ -28,5 +28,10 @@ complaintRouter.delete(
   complaintsController.deleteComplaints,
 );
 
+complaintRouter.patch(
+  '/:id',
+  validator({ body: complaintIsCheckedSchema }),
+  complaintsController.setCheckedComplaint,
+);
 
 export default ['complaint', complaintRouter];
