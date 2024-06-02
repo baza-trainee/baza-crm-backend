@@ -1,12 +1,5 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
-import { Tag } from '../tag/tag.entity';
-import { verify } from 'crypto';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { User } from '../user/user.entity';
 
 export enum OtpType {
   Verification = 'verification',
@@ -17,14 +10,20 @@ export enum OtpType {
 @Entity()
 export class Otp {
   @PrimaryGeneratedColumn()
-  user_id!: number;
+  id!: number;
+
+  @Column()
+  userId!: number;
 
   @Column({ type: 'enum', enum: OtpType, default: OtpType.Verification })
-  otp_type!: string;
+  otp_type!: OtpType;
 
-  @Column({ type: 'date' })
-  expires_at!: string;
+  @Column()
+  expires_at!: Date;
 
-  @Column({ type: 'varchar', length: 6 })
-  code?: string;
+  @Column()
+  code!: string;
+
+  @ManyToOne(() => User, (user) => user.otps)
+  user!: User;
 }

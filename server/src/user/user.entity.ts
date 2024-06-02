@@ -4,8 +4,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { Tag } from '../tag/tag.entity';
+import { Otp } from '../otp/otp.entity';
 
 @Entity()
 export class User {
@@ -37,4 +39,7 @@ export class User {
 
   @Column({ default: true })
   emailReceiving?: boolean;
+
+  @OneToMany(() => Otp, (otp) => otp.user)
+  otps!: Otp[];
 }
