@@ -1,17 +1,12 @@
 import Joi from "joi";
 
 export const createComplainSchema = Joi.object().keys({
-  title: Joi.string().required().messages({
-    'any.required': `missing required field title`,
-  }),
-  text: Joi.string().required().messages({
-    'any.required': `missing required field text`,
-  }),
-  isChecked: Joi.boolean(),
+  title: Joi.string().required(),
+  text: Joi.string().required(),
 });
 
 export const complaintIdSchema = Joi.object({
-  id: Joi.number().required(),
+complaintId: Joi.number().required(),
 });
 
 export const complaintIsCheckedSchema = Joi.object({

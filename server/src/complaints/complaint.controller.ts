@@ -3,8 +3,9 @@ import controllerWrapper from '../decorators/controller-wrapper';
 import * as complaintService from './complaint.service';
 
 const createComplaint = async (req: Request, res: Response) => {
-  await complaintService.create(req.body);
-  res.status(201).json('Created');
+  const { id } = req.user;
+  await complaintService.create(req.body, Number(id));
+  res.status(201).json({ status: true });
 };
 
 const getAllComplaints = async (req: Request, res: Response) => {
@@ -13,23 +14,25 @@ const getAllComplaints = async (req: Request, res: Response) => {
 };
 
 const getByIdComplaint = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const complaints = await complaintService.getById(Number(id));
+  const { complaintId } = req.params;
+  const complaints = await complaintService.getById(Number(complaintId));
   res.json(complaints);
 };
 
 const setCheckedComplaint = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { complaintId } = req.params;
   const { isChecked } = req.body;
 
-  await complaintService.setChecked(Number(id), isChecked);
+  await complaintService.setChecked(Number(complaintId), isChecked);
 
-  res.json('Changed');
+  res.json({ status: true });
 };
 
 const deleteComplaints = async (req: Request, res: Response) => {
-  await complaintService.deleteItem(Number(req.params.id));
-  res.json('Deleted');
+  const { complaintId } = req.params;
+
+  await complaintService.deleteItem(Number(complaintId));
+  res.json({ status: true });
 };
 
 export default {

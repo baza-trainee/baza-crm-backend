@@ -1,9 +1,20 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { User } from '../user/user.entity';
 
 @Entity()
-export class Complaints {
+export class Complaint {
   @PrimaryGeneratedColumn()
   id!: number;
+
+  @ManyToOne(() => User)
+  @JoinColumn()
+  user!: User;
 
   @Column()
   title!: string;

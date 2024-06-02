@@ -1,18 +1,24 @@
 import { AppDataSource } from '../db/data-source';
-import { Complaints } from './complaint.entity';
+import { Complaint } from './complaint.entity';
 import { IComplaint } from './complaint.types';
+import * as userService from '../user/user.service';
 
-const complaintsRepository = AppDataSource.getRepository(Complaints);
+const complaintsRepository = AppDataSource.getRepository(Complaint);
 
-export const create = async (data:IComplaint) => {
-  const complaint = complaintsRepository.create({...data});
+export const create = async (data: IComplaint, userId: number) => {
+  const user = await userService.findById(userId);
+  const complaint = complaintsRepository.create({ ...data });
+  complaint.user = user;
   const result = await complaintsRepository.save(complaint);
 
   if (result === null) throw new Error('Something went wrong');
   return result;
 };
 
-export const getAll = async () => await complaintsRepository.find();
+export const getAll = async () => {
+  const result = await complaintsRepository.find();
+  return result;
+};
 
 export const getById = async (id: number) => {
   const result = await complaintsRepository.findOneBy({ id });
@@ -30,10 +36,10 @@ export const setChecked = async (id: number, value: boolean) => {
 };
 
 export const deleteItem = async (id: number) => {
-    const result = await complaintsRepository.delete(id);
-      if (result === null) throw new Error(`Something went wrong, maybe ${id} does't exist`);
+  const result = await complaintsRepository.delete(id);
+
+  if (!result.affected)
+    throw new Error(`Something went wrong, maybe ${id} does't exist`);
 
   return true;
 };
-
-// -create(user_id from jwt)
