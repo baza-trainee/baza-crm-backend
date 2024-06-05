@@ -35,7 +35,6 @@ export const findById = async (userId: number) => {
 export const findByEmail = async (email: string) => {
   const result = await userRepository.findOneBy({ email });
   if (result === null) throw new Error('User not found');
-  console.log(result);
   return result;
 };
 

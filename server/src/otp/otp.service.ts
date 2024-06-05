@@ -1,42 +1,46 @@
 import { AppDataSource } from '../db/data-source';
-import { Otp, OtpType } from './otp.entity';
-import { Repository, MoreThan } from 'typeorm';
+import { OtpType } from './otp.types';
+import { Otp } from './otp.entity';
+import * as userService from '../user/user.service';
 
-const otpRepository: Repository<Otp> = AppDataSource.getRepository(Otp);
+const otpRepository = AppDataSource.getRepository(Otp);
 
 const generateOtpCode = (): string => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
-export const createVerificstionCode = async (
+export const createVerificationCode = async (
   userId: number,
   otpType: OtpType,
 ): Promise<Otp> => {
+  const user = await userService.findById(userId);
+  const date = new Date();
+  date.setMinutes(date.getMinutes() + 30);
+
   const otp = new Otp();
-  otp.userId = userId;
   otp.otp_type = otpType;
   otp.code = generateOtpCode();
-  otp.expires_at = new Date(Date.now() + 30 * 60 * 1000);
-
-  return await otpRepository.save(otp);
+  otp.expires_at = date;
+  otp.user = user;
+  const result = await otpRepository.save(otp);
+  return result;
 };
 
-export const verifyOtp = async (
-  userId: number,
-  otp_type: OtpType,
-  code: string,
-): Promise<boolean> => {
-  const otp = await otpRepository.findOne({
+export const checkedJWT = async (userId: number, code: string) => {
+console.log('user',userId, "code", code);
+  const otp = await otpRepository.find({
+    relations: {
+      user: true,
+    },
     where: {
-      userId,
-      otp_type,
+      user:{id:userId},
       code,
-      expires_at: MoreThan(new Date()),
     },
   });
 
+  console.log(otp);
   if (!otp) return false;
 
-  await otpRepository.delete(otp.id);
+  // await otpRepository.delete(otp.code);
   return true;
 };

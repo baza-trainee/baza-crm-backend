@@ -20,4 +20,6 @@ authRouter.post(
 
 authRouter.post('/me', getUserJWT, authController.getMe);
 
+authRouter.get('/verify', authController.handlerVerify);
+
 export default ['auth', authRouter];

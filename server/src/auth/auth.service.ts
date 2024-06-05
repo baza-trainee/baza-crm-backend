@@ -10,17 +10,6 @@ export const userRegistration = async (email: string, password: string) => {
   const hashPassword = await bcrypt.hash(password, Number(SALT));
   const data = { email, password: hashPassword };
   const newUser = await userServices.createUser(data);
-  /*   
-  1. ОТР.service.createVerificstionCode (userId: number) 
-    1.1 ОТР.service сегенерировать код
-    1.2 записать код с юзером в базу
-
-  2. Сделать jwt токен из createVerificstionCode
-  3. Создать ссылку для отпавки на почту и прокинуть ссылку в майл сервис sendVerificationEmail
-  4. Сделать Route  который будет обрабатывать (в auth)
-  
-  */
-
   return newUser;
 };
 

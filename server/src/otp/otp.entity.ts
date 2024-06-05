@@ -1,21 +1,26 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  JoinColumn,
+} from 'typeorm';
 import { User } from '../user/user.entity';
-
-export enum OtpType {
-  Verification = 'verification',
-  ChangePassword = 'changePassword',
-  Discord = 'discord',
-}
-
+import { OtpType } from './otp.types';
 @Entity()
 export class Otp {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  userId!: number;
+  @ManyToOne(() => User, {nullable:true})
+  @JoinColumn()
+  user!: User;
 
-  @Column({ type: 'enum', enum: OtpType, default: OtpType.Verification })
+  @Column({
+    type: 'enum',
+    enum: OtpType,
+    default: OtpType.Verification,
+  })
   otp_type!: OtpType;
 
   @Column()
@@ -23,7 +28,4 @@ export class Otp {
 
   @Column()
   code!: string;
-
-  @ManyToOne(() => User, (user) => user.otps)
-  user!: User;
 }

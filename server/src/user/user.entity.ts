@@ -40,6 +40,6 @@ export class User {
   @Column({ default: true })
   emailReceiving?: boolean;
 
-  @OneToMany(() => Otp, (otp) => otp.user)
-  otps!: Otp[];
+  @Column({ nullable: true, default: false })
+  isVerified?: boolean;
 }

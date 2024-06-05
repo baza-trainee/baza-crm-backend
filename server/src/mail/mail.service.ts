@@ -30,13 +30,14 @@ const sendEmail = async (letter: ILetter) =>
   await transporter.sendMail({ ...letter, from: SMTP_FROM });
 
 export const sendVerificationEmail = async (email: string, link: string) => {
+
   const letter = {
     to: email,
     subject: 'Verify email',
     html: `<h2>Hi, ${email}.</h2>
     <p>We just need to verify your email address before you can access.</p>
     <p>Click below to verify your email address</p>
-    <a target="_blank" href="${BASE_URL}${link}">Click here</a> 
+    <a target="_blank" href=${link}>Click here</a> 
     <p>Regards, Baza Trainee Ukraine</p>
     <p>Thanks!</p>
 `,
