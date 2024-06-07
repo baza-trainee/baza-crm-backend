@@ -16,7 +16,9 @@ export const create = async (data: IComplaint, userId: number) => {
 };
 
 export const getAll = async () => {
-  const result = await complaintsRepository.find();
+  const result = await complaintsRepository.find({
+    select: { id: true, title: true, isChecked: true },
+  });
   return result;
 };
 
