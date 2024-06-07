@@ -21,7 +21,7 @@ const editTag = async (req: Request, res: Response) => {
 };
 
 const addTagToUser = async (req: Request, res: Response) => {
-  const userId = req.user.id;
+  const userId = req.getUserId();
   const { tagId } = req.params;
   const user = await tagService.addTagToUser(userId, Number(tagId));
   res.json(user);
