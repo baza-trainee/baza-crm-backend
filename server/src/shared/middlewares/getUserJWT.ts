@@ -1,9 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-
-import jwt from 'jsonwebtoken';
-
-const { JWT_SECRET } = process.env;
-if (JWT_SECRET === undefined) throw new Error();
+import { verifyJWT } from '../../jwt/jwt.service';
 
 export const getUserJWT = async (
   req: Request,
@@ -19,7 +15,7 @@ export const getUserJWT = async (
     return next(new Error('Not authorized'));
   }
   try {
-    const user = jwt.verify(token, JWT_SECRET);
+    const user = verifyJWT(token);
     req.user = user;
     next();
   } catch (error) {

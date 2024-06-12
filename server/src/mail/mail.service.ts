@@ -1,33 +1,26 @@
 import nodemailer from 'nodemailer';
 import { ILetter } from './mail.types';
-
-const {
-  SMTP_PASSWORD,
-  SMTP_USER,
-  BASE_URL,
-  SMTP_PORT,
-  SMTP_SECURE,
-  SMTP_HOST,
-  SMTP_FROM,
-} = process.env;
+import getConfigValue from '../config/config';
 
 const nodemailerConfig = {
-  host: SMTP_HOST,
-  port: Number(SMTP_PORT),
-  secure: Boolean(SMTP_SECURE),
+  host: getConfigValue('SMTP_HOST'),
+  port: getConfigValue('SMTP_PORT'),
+  secure: getConfigValue('SMTP_SECURE'),
   auth: {
-    user: SMTP_USER,
-    pass: SMTP_PASSWORD,
+    user: getConfigValue('SMTP_USER'),
+    pass: getConfigValue('SMTP_PASSWORD'),
   },
   tls: {
     rejectUnauthorized: false,
   },
 };
 
+const BASE_URL = getConfigValue('BASE_URL');
+
 const transporter = nodemailer.createTransport(nodemailerConfig);
 
 const sendEmail = async (letter: ILetter) =>
-  await transporter.sendMail({ ...letter, from: SMTP_FROM });
+  await transporter.sendMail({ ...letter, from: getConfigValue('SMTP_FROM') });
 
 export const sendVerificationEmail = async (email: string, link: string) => {
   const letter = {

@@ -8,6 +8,7 @@ import {
   ActionRowBuilder,
   ButtonStyle,
 } from 'discord.js';
+import getConfigValue from '../config/config';
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -19,7 +20,7 @@ const client = new Client({
   partials: [Partials.Channel, Partials.Message],
 });
 
-const mainGuildId = process.env.GUILD_DISCORD_ID;
+const mainGuildId = getConfigValue('GUILD_DISCORD_ID');
 
 const roles = [
   { name: 'Back', color: '0000ff' },

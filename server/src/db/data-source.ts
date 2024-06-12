@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import getConfigValue from '../config/config';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -7,7 +8,7 @@ export const AppDataSource = new DataSource({
   username: 'admin',
   password: 'admin',
   database: 'crm',
-  synchronize: process.env.NODE_ENV === 'production' ? false : true,
+  synchronize: getConfigValue('NODE_ENV') === 'production' ? false : true,
   logging: false,
   entities: ['**/*.entity.*'],
   subscribers: [],

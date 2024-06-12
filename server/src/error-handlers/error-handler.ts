@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import getConfigValue from '../config/config';
 
 export function errorHandler(
   err: Error,
@@ -7,7 +8,7 @@ export function errorHandler(
   next: NextFunction,
 ) {
   res.status(500);
-  if (process.env.NODE_ENV === 'production')
+  if (getConfigValue('NODE_ENV') === 'production')
     return res.json({ message: 'Something gone wrong' });
   console.log(err);
   res.json({

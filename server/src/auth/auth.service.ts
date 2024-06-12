@@ -1,13 +1,13 @@
 import bcrypt from 'bcrypt';
 import * as userServices from '../user/user.service';
 import { signJWT } from '../jwt/jwt.service';
+import getConfigValue from '../config/config';
 
-const { SALT } = process.env;
-if (SALT === undefined) throw new Error();
+const SALT = getConfigValue('SALT');
 
 export const userRegistration = async (email: string, password: string) => {
   await userServices.existByEmail(email);
-  const hashPassword = await bcrypt.hash(password, Number(SALT));
+  const hashPassword = await bcrypt.hash(password, SALT);
   const data = { email, password: hashPassword };
   const newUser = await userServices.createUser(data);
 
