@@ -1,4 +1,5 @@
 import { AppDataSource } from '../db/data-source';
+import { UserRequest } from '../user-request/user-request.entity';
 import { User } from './user.entity';
 import { IUserRegister, IUpdateUser } from './user.types';
 
@@ -13,12 +14,21 @@ const userRepository = AppDataSource.getRepository(User).extend({
   },
 });
 
-export const createUser = async (data: IUserRegister) => {
-  const { email, password } = data;
+export const createUser = async (
+  credentialsData: IUserRegister,
+  userRequest: UserRequest,
+) => {
+  const { email, password } = credentialsData;
 
-  const newUser = new User();
-  newUser.email = email;
-  newUser.password = password;
+  const {
+    id,
+    discord,
+    isAccepted,
+    specialization,
+    email: _,
+    ...userData
+  } = userRequest;
+  const newUser = userRepository.create({ email, password, ...userData });
 
   const result = await userRepository.save(newUser);
 

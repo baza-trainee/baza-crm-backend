@@ -9,6 +9,8 @@ import {
   ButtonStyle,
 } from 'discord.js';
 import getConfigValue from '../config/config';
+import { createDiscordLinkOtpCode } from '../otp/otp.service';
+import { signJWT } from '../jwt/jwt.service';
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -82,17 +84,17 @@ const kickUser = async (userId: string, guildId: string) => {
   await user.kick();
 };
 
-const sendUserAuthButton = async (userId: string, id: string) => {
+const sendUserAuthButton = async (userId: string) => {
+  const code = await createDiscordLinkOtpCode();
   const button = new ButtonBuilder()
     .setLabel('Authorize')
     .setURL(
-      `http://localhost:5000/api/v1/user/discord/?userId=${id}&discordId=${userId}`,
+      `${getConfigValue('BASE_URL')}/user/discord/?code=${signJWT(
+        { code, discordId: userId },
+        '24h',
+      )}`,
     )
     .setStyle(ButtonStyle.Link);
-  /* TODO
-    remove userid
-    redirect url in front and then get data(OTPcode in jwt token) with user jwt token to backend 
-    */
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(button);
 
   const user = await client.users.fetch(userId);
@@ -162,14 +164,13 @@ client.on('messageCreate', async (ctx) => {
   if (ctx.author.bot) return;
   if (ctx.guild) return;
   if (ctx.content.startsWith('/start')) {
-    const id = ctx.content.split(' ')[1] || '1';
-    await sendUserAuthButton(ctx.author.id, id);
+    await sendUserAuthButton(ctx.author.id);
   }
   console.log(ctx);
 });
 
 client.on('guildMemberAdd', async (member) => {
-  await sendUserAuthButton(member.id, '1');
+  await sendUserAuthButton(member.id);
 });
 
 client.on('guildCreate', async (guild) => {

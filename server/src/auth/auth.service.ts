@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import * as userServices from '../user/user.service';
+import * as userRequestService from '../user-request/user-request.service';
 import { signJWT } from '../jwt/jwt.service';
 import getConfigValue from '../config/config';
 
@@ -7,10 +8,13 @@ const SALT = getConfigValue('SALT');
 
 export const userRegistration = async (email: string, password: string) => {
   await userServices.existByEmail(email);
+  const userRequest = await userRequestService.getByEmail(email);
+  if (!userRequest.isAccepted) {
+    throw new Error('Your request is not approved');
+  }
   const hashPassword = await bcrypt.hash(password, SALT);
   const data = { email, password: hashPassword };
-  const newUser = await userServices.createUser(data);
-
+  const newUser = await userServices.createUser(data, userRequest);
   return newUser;
 };
 
@@ -22,19 +26,29 @@ export const userLogin = async (email: string, password: string) => {
     throw new Error('Email or password is wrong');
   }
 
-  const payload = {
+  const payload: any = {
     id: user.id,
   };
 
-  const token = signJWT(payload, '23h');
+  if (user.id === 1) {
+    payload.isAdmin = true;
+  }
+  if (user.discord) {
+    payload.discordLinked = true;
+  }
 
-  const data = {
+  const token = signJWT(payload, '24h');
+
+  const data: any = {
     token,
     user: {
       id: user.id,
       email: user.email,
     },
   };
+  if (user.id === 1) {
+    data.user.isAdmin = true;
+  }
   return data;
 };
 
