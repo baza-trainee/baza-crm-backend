@@ -11,12 +11,13 @@ import setupSwagger from './swagger';
 
 const app = express();
 
+setupSwagger(app);
+
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(extendFn);
-setupSwagger(app);
 app.use('/api/v1', Router);
 
 app.use(notFound);
