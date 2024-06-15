@@ -18,6 +18,10 @@ interface IConfig {
   DISCORD_BOT_TOKEN: string;
   GUILD_DISCORD_ID: string;
   PORT: number;
+  DB_USER: string;
+  DB_PASS: string;
+  DB_DATABASE: string;
+  DB_HOST: string;
 }
 
 const envSchema = Joi.object<IConfig>({
@@ -36,12 +40,15 @@ const envSchema = Joi.object<IConfig>({
   SMTP_PORT: Joi.number().required(),
   SMTP_USER: Joi.string().required(),
   PORT: Joi.number().required().default(5000),
+  DB_USER: Joi.string().required(),
+  DB_PASS: Joi.string().required(),
+  DB_DATABASE: Joi.string().required(),
+  DB_HOST: Joi.string().required(),
 });
 
 let environment: IConfig;
 
 const setupConfig = () => {
-  console.log('aboba');
   const { error, value } = envSchema.validate(process.env, {
     stripUnknown: true,
     allowUnknown: false,

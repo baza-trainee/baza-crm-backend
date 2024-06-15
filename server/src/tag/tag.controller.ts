@@ -27,6 +27,13 @@ const addTagToUser = async (req: Request, res: Response) => {
   res.json(user);
 };
 
+const removeTagFromUser = async (req: Request, res: Response) => {
+  const userId = req.getUserId();
+  const { tagId } = req.params;
+  const user = await tagService.removeTagFromUser(userId, Number(tagId));
+  res.json(user);
+};
+
 const getAllTags = async (req: Request, res: Response) => {
   const tags = await tagService.getAllTags();
   res.json(tags);
@@ -38,4 +45,5 @@ export default {
   editTag: controllerWrapper(editTag),
   addTagToUser: controllerWrapper(addTagToUser),
   getAllTags: controllerWrapper(getAllTags),
+  removeTagFromUser: controllerWrapper(removeTagFromUser),
 };

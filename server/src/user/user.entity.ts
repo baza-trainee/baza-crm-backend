@@ -26,14 +26,26 @@ export class User {
   @JoinTable()
   specializations!: Tag[];
 
-  @Column({ nullable: true })
+  @Column()
   linkedin?: string;
 
   @Column({ nullable: true })
   discord?: string;
 
-  @Column({ nullable: true })
-  name?: string;
+  @Column()
+  firstName!: string;
+
+  @Column()
+  lastName!: string;
+
+  @Column()
+  phone!: string;
+
+  @Column()
+  city!: string;
+
+  @Column()
+  country?: string;
 
   @Column({ default: true })
   emailReceiving?: boolean;

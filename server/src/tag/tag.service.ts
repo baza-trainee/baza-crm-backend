@@ -56,6 +56,29 @@ export const addTagToUser = async (userId: number, tagId: number) => {
   return await userRepository.save(user);
 };
 
+export const removeTagFromUser = async (userId: number, tagId: number) => {
+  const user = await userService.findByIdWithTags(userId);
+
+  const tag = await findTagById(tagId);
+
+  if (tag.isSpecialization) {
+    if (user.specializations.find((el) => el.id === tag.id)) {
+      user.specializations = user.specializations.filter(
+        (el) => el.id !== tagId,
+      );
+    } else {
+      throw new Error('User dont have this tag');
+    }
+  } else {
+    if (user.technologies.find((el) => el.id === tag.id)) {
+      user.technologies = user.technologies.filter((el) => el.id !== tagId);
+    } else {
+      throw new Error('User dont have this tag');
+    }
+  }
+  return await userRepository.save(user);
+};
+
 export const getAllTags = async () => {
   return await tagRepository.find();
 };
