@@ -49,8 +49,6 @@ tagRouter.post(
  *   get:
  *     summary: get all tags
  *     tags: [Tag]
- *     security:
- *       - jwtheader: []
  *     responses:
  *       200:
  *         description: Ok
@@ -86,8 +84,8 @@ tagRouter.use(isAdmin);
 /**
  * @openapi
  * /tag/{tagId}:
- *   patch:
- *     summary: Update tag tag
+ *   post:
+ *     summary: Create tag
  *     tags: [Tag]
  *     requestBody:
  *       required: true
