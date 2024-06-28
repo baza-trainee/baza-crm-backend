@@ -1,31 +1,38 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { ProjectStatuses, ProjectTypes } from './project.enums';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
+import { ProjectStatuses, ProjectTypes } from './project.enums'
+import { ProjectRequirment } from './requirment/project-requirment.entity'
 @Entity()
 export class Project {
   @PrimaryGeneratedColumn()
-  id!: number;
+  id!: number
 
   @Column()
-  name!: string;
+  name!: string
 
   @Column()
-  description!: string;
+  description!: string
 
   @Column()
-  projectPoints!: number;
+  projectPoints!: number
 
   @Column({ enum: ProjectStatuses, default: ProjectStatuses.IN_SEARCH })
-  projectStatus!: ProjectStatuses;
+  projectStatus!: ProjectStatuses
 
   @Column({ enum: ProjectTypes, default: ProjectTypes.FREE })
-  projectType!: ProjectTypes;
+  projectType!: ProjectTypes
 
   @Column({ nullable: true })
-  price?: number;
+  price?: number
 
   @Column({ nullable: true })
-  site?: string;
+  site?: string
 
   @Column({ type: 'text', nullable: true })
-  paymentInfo?: string;
+  paymentInfo?: string
+
+  @OneToMany(
+    () => ProjectRequirment,
+    projectRequirment => projectRequirment.project,
+  )
+  projectRequirments!: ProjectRequirment[]
 }

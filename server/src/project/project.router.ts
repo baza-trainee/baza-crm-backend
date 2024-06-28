@@ -6,6 +6,7 @@ import { getUserJWT } from '../shared/middlewares/getUserJWT';
 import { isAdmin } from '../shared/middlewares/isAdmin';
 import projectController from './project.controller';
 import * as projectSchemas from './project.schemas';
+import { projectRequirmentRouter } from './requirment/project-requirment.router';
 
 const projectRouter = Router();
 projectRouter.use(getUserJWT);
@@ -132,7 +133,7 @@ projectRouter.post(
 projectRouter.patch(
   '/:projectId/status',
   validator({
-    params: projectSchemas.projectByIdParamSchema,
+    params: projectSchemas.projectIdParamSchema,
     body: projectSchemas.updateProjectStatusSchema,
   }),
   projectController.updateProjectStatus,
@@ -192,10 +193,11 @@ projectRouter.patch(
 projectRouter.patch(
   '/:projectId',
   validator({
-    params: projectSchemas.projectByIdParamSchema,
+    params: projectSchemas.projectIdParamSchema,
     body: projectSchemas.updateProjectSchema,
   }),
   projectController.updateProject,
 );
+projectRouter.use('/:projectId/requirment/:tagId', projectRequirmentRouter);
 
 export default ['project', projectRouter];

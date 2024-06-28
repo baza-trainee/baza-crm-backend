@@ -12,7 +12,10 @@ export const findAllPojects = async () => {
 };
 
 export const findProjectById = async (id: number) => {
-  const project = await projectRepository.findOne({ where: { id } });
+  const project = await projectRepository.findOne({
+    where: { id },
+    relations: { projectRequirments: true },
+  });
   if (project === null) throw new Error('Project not found');
   return project;
 };

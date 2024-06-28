@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import { ObjectSchema, ValidationOptions } from 'joi';
+import { ObjectSchema, ValidationError, ValidationOptions } from 'joi';
 
 interface ValidationSchemas {
-  body?: ObjectSchema | null;
-  params?: ObjectSchema | null;
-  query?: ObjectSchema | null;
+  body?: ObjectSchema | ObjectSchema[] | null;
+  params?: ObjectSchema | ObjectSchema[] | null;
+  query?: ObjectSchema | ObjectSchema[] | null;
 }
 
 const options: ValidationOptions = {
@@ -14,30 +14,45 @@ const options: ValidationOptions = {
 
 const validator = (schemas: ValidationSchemas) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const errors = [];
+    const errors: ValidationError[] = [];
     if (schemas.body) {
-      const result = schemas.body.validate(req.body, options);
-      if (result.error) {
-        errors.push(result.error);
-      } else {
-        req.body = result.value;
-      }
-    }
-    if (schemas.params) {
-      const result = schemas.params.validate(req.params, options);
-      if (result.error) {
-        errors.push(result.error);
-      } else {
-        req.params = result.value;
-      }
+      const schemasArr = Array.isArray(schemas.body)
+        ? schemas.body
+        : [schemas.body];
+      let data: any = {};
+      schemasArr.forEach((schema) => {
+        const result = schema.validate(req.body, options);
+        result.error
+          ? errors.push(result.error)
+          : (data = { ...result.value, ...data });
+      });
+      req.body = data;
     }
     if (schemas.query) {
-      const result = schemas.query.validate(req.query, options);
-      if (result.error) {
-        errors.push(result.error);
-      } else {
-        req.query = result.value;
-      }
+      const schemasArr = Array.isArray(schemas.query)
+        ? schemas.query
+        : [schemas.query];
+      let data: any = {};
+      schemasArr.forEach((schema) => {
+        const result = schema.validate(req.query, options);
+        result.error
+          ? errors.push(result.error)
+          : (data = { ...result.value, ...data });
+      });
+      req.query = data;
+    }
+    if (schemas.params) {
+      const schemasArr = Array.isArray(schemas.params)
+        ? schemas.params
+        : [schemas.params];
+      let data: any = {};
+      schemasArr.forEach((schema) => {
+        const result = schema.validate(req.params, options);
+        result.error
+          ? errors.push(result.error)
+          : (data = { ...result.value, ...data });
+      });
+      req.params = data;
     }
     if (errors.length) {
       return res.status(400).send(errors);

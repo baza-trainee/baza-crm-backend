@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { IProjectCreate, IProjectUpdate } from './project.types';
 import { ProjectStatuses, ProjectTypes } from './project.enums';
 
-export const projectByIdParamSchema = Joi.object({
+export const projectIdParamSchema = Joi.object({
   projectId: Joi.string().required(),
 });
 
