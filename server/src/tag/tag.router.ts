@@ -10,7 +10,6 @@ import {
 import { isAdmin } from '../shared/middlewares/isAdmin';
 
 const tagRouter = Router();
-tagRouter.use(getUserJWT);
 
 /**
  * @openapi
@@ -18,6 +17,21 @@ tagRouter.use(getUserJWT);
  *   name: Tag
  *   description: Tag information
  */
+
+/**
+ * @openapi
+ * /tag:
+ *   get:
+ *     summary: get all tags
+ *     tags: [Tag]
+ *     responses:
+ *       200:
+ *         description: Ok
+ */
+tagRouter.get('/', tagController.getAllTags);
+
+
+tagRouter.use(getUserJWT);
 
 /**
  * @openapi
@@ -43,17 +57,7 @@ tagRouter.post(
   tagController.removeTagFromUser,
 );
 
-/**
- * @openapi
- * /tag:
- *   get:
- *     summary: get all tags
- *     tags: [Tag]
- *     responses:
- *       200:
- *         description: Ok
- */
-tagRouter.get('/', tagController.getAllTags);
+
 
 /**
  * @openapi
