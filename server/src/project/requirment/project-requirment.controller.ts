@@ -2,10 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import controllerWrapper from '../../decorators/controller-wrapper';
 import * as projectRequirmentService from './project-requirment.service';
 
-projectRequirmentService.createProjectRequirment;
-projectRequirmentService.deleteProjectRequirment;
-projectRequirmentService.editProjectRequirment;
-
 const createProjectRequirment = async (
   req: Request,
   res: Response,

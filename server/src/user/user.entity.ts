@@ -4,8 +4,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { Tag } from '../tag/tag.entity';
+import { ProjectAplication } from '../project/aplication/project-aplication.entity';
+import { ProjectMember } from '../project/member/project-member.entity';
 
 @Entity()
 export class User {
@@ -49,4 +52,18 @@ export class User {
 
   @Column({ default: true })
   emailReceiving?: boolean;
+
+  @OneToMany(
+    () => ProjectAplication,
+    (projectAplications) => projectAplications.project,
+  )
+  projectAplications!: ProjectAplication[];
+
+
+  @OneToMany(
+    () => ProjectMember,
+    (projectMember) => projectMember.project,
+  )
+  projectMember!: ProjectMember[];
+  
 }

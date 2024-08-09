@@ -39,6 +39,8 @@ complaintRouter.use(getUserJWT);
  *             example:
  *               title: Hi problem
  *               text: Lorem ipsum
+ *     security:
+ *       - jwtheader: []
  *     responses:
  *       200:
  *         description: Ok
@@ -57,6 +59,8 @@ complaintRouter.use(isAdmin);
  *   get:
  *     summary: get all complaint
  *     tags: [Complaint]
+ *     security:
+ *       - jwtheader: []
  *     responses:
  *       200:
  *         description: Ok

@@ -6,7 +6,7 @@ import { deleteOtpCode, verifyDiscordLinkOtpCode } from '../otp/otp.service';
 import { OtpType } from '../otp/otp.types';
 
 const findUserById = async (req: Request, res: Response) => {
-  const user = await UserService.findById(Number(req.params.id));
+  const user = await UserService.findUserById(Number(req.params.id));
   return res.json({ user });
 };
 

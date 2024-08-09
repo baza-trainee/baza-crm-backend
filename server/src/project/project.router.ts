@@ -7,9 +7,14 @@ import { isAdmin } from '../shared/middlewares/isAdmin';
 import projectController from './project.controller';
 import * as projectSchemas from './project.schemas';
 import { projectRequirmentRouter } from './requirment/project-requirment.router';
+import { projectAplicationRouter } from './aplication/project-aplication.router';
+import { projectMemberRouter } from './member/project-member.router';
 
 const projectRouter = Router();
 projectRouter.use(getUserJWT);
+
+projectRouter.use('/:projectId/aplication/', projectAplicationRouter);
+projectRouter.use('/:projectId/member/', projectMemberRouter);
 
 /**
  * @openapi
