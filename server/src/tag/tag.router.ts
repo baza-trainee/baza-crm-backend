@@ -85,7 +85,7 @@ tagRouter.use(isAdmin);
 
 /**
  * @openapi
- * /tag/{tagId}:
+ * /tag/:
  *   post:
  *     summary: Create tag 
  *     tags: [Tag]
