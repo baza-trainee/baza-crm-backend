@@ -86,8 +86,8 @@ tagRouter.use(isAdmin);
 /**
  * @openapi
  * /tag/{tagId}:
- *   patch:
- *     summary: Update tag tag
+ *   post:
+ *     summary: Create tag 
  *     tags: [Tag]
  *     requestBody:
  *       required: true
@@ -142,39 +142,39 @@ tagRouter.delete(
   tagController.deleteTag,
 );
 
-/**
- * @openapi
- * /tag/{tagId}:
- *   patch:
- *     summary: Update tag
- *     tags: [Tag]
- *     parameters:
- *       - in: path
- *         name: tagId
- *         required: true
- *         schema:
- *           type: string
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               color:
- *                 type: string
- *             example:
- *               color: red
- *     security:
- *       - jwtheader: []
- *     responses:
- *       200:
- *         description: Ok
- */
-tagRouter.patch(
-  '/:tagId',
-  validator({ params: tagIdParamSchema, body: editTagSchema }),
-  tagController.editTag,
-);
+// /**
+//  * @openapi
+//  * /tag/{tagId}:
+//  *   patch:
+//  *     summary: Update tag
+//  *     tags: [Tag]
+//  *     parameters:
+//  *       - in: path
+//  *         name: tagId
+//  *         required: true
+//  *         schema:
+//  *           type: string
+//  *     requestBody:
+//  *       required: true
+//  *       content:
+//  *         application/json:
+//  *           schema:
+//  *             type: object
+//  *             properties:
+//  *               color:
+//  *                 type: string
+//  *             example:
+//  *               color: red
+//  *     security:
+//  *       - jwtheader: []
+//  *     responses:
+//  *       200:
+//  *         description: Ok
+//  */
+// tagRouter.patch(
+//   '/:tagId',
+//   validator({ params: tagIdParamSchema, body: editTagSchema }),
+//   tagController.editTag,
+// );
 
 export default ['tag', tagRouter];
