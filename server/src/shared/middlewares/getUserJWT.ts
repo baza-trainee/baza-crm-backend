@@ -8,11 +8,11 @@ export const getUserJWT = async (
 ) => {
   const { authorization } = req.headers;
   if (!authorization) {
-    return next(new Error('Not authorized'));
+    return next(new Error('No authorization header'));
   }
   const [bearer, token] = authorization.split(' ');
   if (bearer !== 'Bearer') {
-    return next(new Error('Not authorized'));
+    return next(new Error('Not bearer schema'));
   }
   try {
     const user = verifyJWT(token);

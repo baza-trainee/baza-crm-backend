@@ -36,7 +36,7 @@ export const createUser = async (
   return result;
 };
 
-export const findById = async (userId: number) => {
+export const findUserById = async (userId: number) => {
   const result = await userRepository.findOneBy({ id: userId });
   if (result === null) throw new Error('User not found');
   return result;
@@ -76,12 +76,12 @@ export const updateUser = async (
   dataUpd: Partial<IUpdateUser>,
 ) => {
   await userRepository.update(userId, dataUpd);
-  const updatedUser = await findById(userId);
+  const updatedUser = await findUserById(userId);
   return updatedUser;
 };
 
 export const linkDiscordToUser = async (userId: number, discordId: string) => {
-  const user = await findById(userId);
+  const user = await findUserById(userId);
   if (user.discord) {
     throw new Error('Discord already linked');
   }

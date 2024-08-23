@@ -6,7 +6,7 @@ import * as userService from '../user/user.service';
 const complaintsRepository = AppDataSource.getRepository(Complaint);
 
 export const create = async (data: IComplaint, userId: number) => {
-  const user = await userService.findById(userId);
+  const user = await userService.findUserById(userId);
   const complaint = complaintsRepository.create({ ...data });
   complaint.user = user;
   const result = await complaintsRepository.save(complaint);

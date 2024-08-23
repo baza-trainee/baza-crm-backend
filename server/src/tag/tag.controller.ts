@@ -12,13 +12,13 @@ const deleteTag = async (req: Request, res: Response) => {
   res.json({ message: 'Tag deleted successfully' });
 };
 
-const editTag = async (req: Request, res: Response) => {
-  if (!Object.keys(req.body).length) {
-    throw new Error('Empty update object');
-  }
-  const tag = await tagService.editTag(Number(req.params.tagId), req.body);
-  res.json(tag);
-};
+// const editTag = async (req: Request, res: Response) => {
+//   if (!Object.keys(req.body).length) {
+//     throw new Error('Empty update object');
+//   }
+//   const tag = await tagService.editTag(Number(req.params.tagId), req.body);
+//   res.json(tag);
+// };
 
 const addTagToUser = async (req: Request, res: Response) => {
   const userId = req.getUserId();
@@ -42,7 +42,7 @@ const getAllTags = async (req: Request, res: Response) => {
 export default {
   createTag: controllerWrapper(createTag),
   deleteTag: controllerWrapper(deleteTag),
-  editTag: controllerWrapper(editTag),
+  // editTag: controllerWrapper(editTag),
   addTagToUser: controllerWrapper(addTagToUser),
   getAllTags: controllerWrapper(getAllTags),
   removeTagFromUser: controllerWrapper(removeTagFromUser),

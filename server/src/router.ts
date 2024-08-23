@@ -29,7 +29,8 @@ const registerRouters = async () => {
   const files = findRouterFiles(__dirname);
   files.forEach((file) => {
     const module = require(file);
-    const [key, router] = module.default;
+    const [key, router, skip] = module.default;
+    if (skip) return;
     Router.use('/' + key, router);
     console.log(`${key} router loaded`);
   });
