@@ -14,6 +14,7 @@ const resolveUserRequest = async (req: Request, res: Response) => {
     Number(req.params.requestId),
     req.body.accepted,
   );
+  res.json({ status: true });
 };
 
 const getAllRequest = async (req: Request, res: Response) => {
