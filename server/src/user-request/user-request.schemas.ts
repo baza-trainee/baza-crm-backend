@@ -21,3 +21,6 @@ export const resolveUserRequestSchema = Joi.object().keys({
   accepted: Joi.boolean().required(),
 });
 
+export const resolvedQuerySchema = Joi.object().keys({
+  resolved: Joi.boolean().default(0),
+});

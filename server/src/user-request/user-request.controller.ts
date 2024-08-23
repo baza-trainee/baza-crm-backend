@@ -18,7 +18,10 @@ const resolveUserRequest = async (req: Request, res: Response) => {
 };
 
 const getAllRequest = async (req: Request, res: Response) => {
-  const requests = await userRequestService.getAll(Number(req.query.skip));
+  const requests = await userRequestService.getAll(
+    Number(req.query.skip),
+    Boolean(req.query.resolved),
+  );
   res.json(requests);
 };
 

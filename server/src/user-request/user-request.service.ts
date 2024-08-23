@@ -32,7 +32,7 @@ export const resolveUserRequest = async (id: number, accepted: boolean) => {
 export const getAll = async (skip: number, active = true) => {
   const requests = await userRequestRepository.find({
     select: { id: true, email: true, isAccepted: true },
-    where: { isAccepted: active ? IsNull() : Not(IsNull()) },
+    where: { isAccepted: active ? Not(IsNull()) : IsNull() },
     take: 25,
     skip,
   });
