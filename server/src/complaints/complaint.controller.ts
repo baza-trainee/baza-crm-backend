@@ -13,12 +13,6 @@ const getAllComplaints = async (req: Request, res: Response) => {
   res.json(complaints);
 };
 
-const getByIdComplaint = async (req: Request, res: Response) => {
-  const { complaintId } = req.params;
-  const complaints = await complaintService.getById(Number(complaintId));
-  res.json(complaints);
-};
-
 const setCheckedComplaint = async (req: Request, res: Response) => {
   const { complaintId } = req.params;
   const { isChecked } = req.body;
@@ -38,7 +32,6 @@ const deleteComplaints = async (req: Request, res: Response) => {
 export default {
   createComplaint: controllerWrapper(createComplaint),
   getAllComplaints: controllerWrapper(getAllComplaints),
-  getByIdComplaint: controllerWrapper(getByIdComplaint),
   setCheckedComplaint: controllerWrapper(setCheckedComplaint),
   deleteComplaints: controllerWrapper(deleteComplaints),
 };

@@ -53,7 +53,7 @@ userRouter.get(
  *             properties:
  *               linkedin:
  *                 type: string
- *               emailReceiving:
+ *               discordReceiving:
  *                 type: boolean
  *               city:
  *                 type: string
@@ -65,14 +65,18 @@ userRouter.get(
  *                 type: string
  *               phone:
  *                 type: string
+ *               status:
+ *                 type: string
+ *                 enum: [active,working,pause]
  *             example:
  *               linkedin: linkedinUrl
- *               emailReceiving: false
+ *               discordReceiving: false
  *               city: Lviv
  *               country: Ukraine
  *               firstName: Adam
  *               lastName: Smasher
  *               phone: +380 96 53 43 12 34
+ *               status: active
  *     security:
  *       - jwtheader: []
  *     responses:

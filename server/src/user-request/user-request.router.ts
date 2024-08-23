@@ -117,6 +117,13 @@ userRequestRouter.patch(
  *         required: false
  *         schema:
  *           type: number
+ *           default: 0
+ *       - in: query
+ *         name: resolved
+ *         required: false
+ *         schema:
+ *           type: boolean
+ *           default: false
  *     security:
  *       - jwtheader: []
  *     responses:
@@ -125,7 +132,9 @@ userRequestRouter.patch(
  */
 userRequestRouter.get(
   '/',
-  validator({ query: skipQuerySchema }),
+  validator({
+    query: [skipQuerySchema, userRequestSchemas.resolvedQuerySchema],
+  }),
   userRequestController.getAllRequest,
 );
 

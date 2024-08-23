@@ -6,8 +6,21 @@ import { deleteOtpCode, verifyDiscordLinkOtpCode } from '../otp/otp.service';
 import { OtpType } from '../otp/otp.types';
 
 const findUserById = async (req: Request, res: Response) => {
-  const user = await UserService.findUserById(Number(req.params.id));
-  return res.json({ user });
+  const user = await UserService.findByIdWithTags(Number(req.params.id));
+
+  if (!req.isAdmin()) {
+    const {
+      city,
+      email,
+      password,
+      phone,
+      discord,
+      discordReceiving,
+      linkedin,
+      ...returnUser
+    } = user;
+    return res.json({ user: returnUser });
+  } else return res.json({ user });
 };
 
 const updateUser = async (req: Request, res: Response) => {

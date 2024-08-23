@@ -29,8 +29,11 @@ export class Project {
   @Column({ nullable: true })
   site?: string;
 
-  @Column({ type: 'text', nullable: true })
-  paymentInfo?: string;
+  @Column({ nullable: true })
+  dateStart!: string;
+
+  @Column({ nullable: true })
+  dateTeam!: string;
 
   @OneToMany(
     () => ProjectRequirment,

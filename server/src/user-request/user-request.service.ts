@@ -5,10 +5,10 @@ import { ICreateUserRequest } from './user-request.types';
 
 const userRequestRepository = AppDataSource.getRepository(UserRequest);
 
-export const checkEmail = async(email:string)=>{
-  const result = await userRequestRepository.findOne({where:{email}})
-  return result !== null
-}
+export const checkEmail = async (email: string) => {
+  const result = await userRequestRepository.findOne({ where: { email } });
+  return result !== null;
+};
 
 export const createUserRequest = async (
   createUserRequestDto: ICreateUserRequest,
@@ -22,7 +22,7 @@ export const resolveUserRequest = async (id: number, accepted: boolean) => {
   if (request === null) {
     throw new Error('User request not found');
   }
-  if (request.isAccepted) {
+  if (request.isAccepted !== null) {
     throw new Error('Request already resolved');
   }
   request.isAccepted = accepted;
@@ -32,7 +32,7 @@ export const resolveUserRequest = async (id: number, accepted: boolean) => {
 export const getAll = async (skip: number, active = true) => {
   const requests = await userRequestRepository.find({
     select: { id: true, email: true, isAccepted: true },
-    where: { isAccepted: active ? IsNull() : Not(IsNull()) },
+    where: { isAccepted: active ? Not(IsNull()) : IsNull() },
     take: 25,
     skip,
   });

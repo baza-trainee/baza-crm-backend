@@ -2,8 +2,10 @@ FROM node:18
 
 WORKDIR /app
 
-COPY ./server .
+COPY ./server/package.* .
 
 RUN npm install
+
+COPY ./server .
 
 CMD ["npm", "run", "dev"]

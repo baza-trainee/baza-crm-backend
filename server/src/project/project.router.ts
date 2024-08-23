@@ -177,9 +177,11 @@ projectRouter.patch(
  *                   - strong
  *               price:
  *                 type: number
- *               paymentInfo:
- *                 type: string
  *               site:
+ *                 type: string
+ *               dateStart:
+ *                 type: string
+ *               dateTeam:
  *                 type: string
  *             example:
  *               description: text
@@ -187,8 +189,9 @@ projectRouter.patch(
  *               projectPoints: 5
  *               projectType: free
  *               price: 0
- *               paymentInfo: text
  *               site: text
+ *               dateStart: 08/17/2024
+ *               dateTeam: 09/17/2024
  *     security:
  *       - jwtheader: []
  *     responses:
@@ -203,6 +206,7 @@ projectRouter.patch(
   }),
   projectController.updateProject,
 );
+
 projectRouter.use('/:projectId/requirment/:tagId', projectRequirmentRouter);
 
 export default ['project', projectRouter];

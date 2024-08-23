@@ -64,7 +64,7 @@ const initUsers = async () => {
 
 const initTags = async () => {
   const tagRepo = AppDataSource.getRepository(Tag);
-  const tags = new Array(10)
+  const tags = new Array(20)
     .fill(null)
     .map((_) => {
       return tagRepo.create({
@@ -116,6 +116,33 @@ const initProjReq = async () => {
   await projReq.save(arr);
 };
 
+const initUserTags = async () => {
+  const tagRepo = AppDataSource.getRepository(Tag);
+  const tags = await tagRepo.find();
+  const [spec, tech] = tags.reduce(
+    (acc, el) => {
+      acc[el.isSpecialization ? 0 : 1].push(el);
+      return acc;
+    },
+    [new Array(), new Array()],
+  );
+  const userRepo = AppDataSource.getRepository(User);
+  const users = await userRepo.find({
+    relations: ['specializations', 'technologies'],
+  });
+  users.forEach((user) => {
+    const newSpec: Set<Tag> = new Set();
+    const newTech: Set<Tag> = new Set();
+    while (newSpec.size < getRandomInt(1, spec.length - 2))
+      newSpec.add(spec[getRandomInt(0, spec.length)]);
+    while (newTech.size < getRandomInt(1, tech.length - 2))
+      newTech.add(tech[getRandomInt(0, tech.length)]);
+    user.technologies.push(...newTech);
+    user.specializations.push(...newSpec);
+  });
+  await userRepo.save(users);
+};
+
 const main = async () => {
   if (process.env.NODE_ENV === 'production') {
     throw new Error('PRODUCTION ENV');
@@ -129,6 +156,7 @@ const main = async () => {
   await initTags();
   await initProj();
   await initProjReq();
+  await initUserTags();
 };
 
 main();
