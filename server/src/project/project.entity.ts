@@ -29,6 +29,12 @@ export class Project {
   @Column({ nullable: true })
   site?: string;
 
+  @Column({ nullable: true })
+  dateStart!: string;
+
+  @Column({ nullable: true })
+  dateTeam!: string;
+
   @OneToMany(
     () => ProjectRequirment,
     (projectRequirment) => projectRequirment.project,

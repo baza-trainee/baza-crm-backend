@@ -15,4 +15,6 @@ export interface IProjectUpdate {
   projectType: ProjectTypes;
   price: number;
   site: string;
+  dateTeam: string;
+  dateStart: string;
 }
