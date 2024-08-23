@@ -53,7 +53,7 @@ userRouter.get(
  *             properties:
  *               linkedin:
  *                 type: string
- *               emailReceiving:
+ *               discordReceiving:
  *                 type: boolean
  *               city:
  *                 type: string
@@ -67,7 +67,7 @@ userRouter.get(
  *                 type: string
  *             example:
  *               linkedin: linkedinUrl
- *               emailReceiving: false
+ *               discordReceiving: false
  *               city: Lviv
  *               country: Ukraine
  *               firstName: Adam

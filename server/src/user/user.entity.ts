@@ -51,7 +51,7 @@ export class User {
   country?: string;
 
   @Column({ default: true })
-  emailReceiving?: boolean;
+  discordReceiving?: boolean;
 
   @OneToMany(
     () => ProjectAplication,

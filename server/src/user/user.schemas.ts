@@ -7,7 +7,7 @@ export const getUserByIdParamSchema = Joi.object().keys({
 
 export const updateUserSchema = Joi.object<User>().keys({
   linkedin: Joi.string().uri().optional(),
-  emailReceiving: Joi.boolean().optional(),
+  discordReceiving: Joi.boolean().optional(),
   city: Joi.string().optional(),
   country: Joi.string().optional(),
   firstName: Joi.string().optional(),
