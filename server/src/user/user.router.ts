@@ -65,6 +65,9 @@ userRouter.get(
  *                 type: string
  *               phone:
  *                 type: string
+ *               status:
+ *                 type: string
+ *                 enum: [active,working,pause]
  *             example:
  *               linkedin: linkedinUrl
  *               discordReceiving: false
@@ -73,6 +76,7 @@ userRouter.get(
  *               firstName: Adam
  *               lastName: Smasher
  *               phone: +380 96 53 43 12 34
+ *               status: active
  *     security:
  *       - jwtheader: []
  *     responses:
