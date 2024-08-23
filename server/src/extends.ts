@@ -6,5 +6,8 @@ export const extendFn = (req: Request, res: Response, next: NextFunction) => {
     if (isNaN(userId)) next(new Error('something gone wrong'));
     return userId;
   };
+  req.isAdmin = function () {
+    return Boolean(this.user.isAdmin);
+  };
   next();
 };
