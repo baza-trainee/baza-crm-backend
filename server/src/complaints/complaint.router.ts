@@ -70,30 +70,6 @@ complaintRouter.get('/', complaintsController.getAllComplaints);
 /**
  * @openapi
  * /complaint/{complaintId}:
- *   get:
- *     summary: get complaint by id
- *     tags: [Complaint]
- *     parameters:
- *       - in: path
- *         name: complaintId
- *         required: true
- *         schema:
- *           type: string
- *     security:
- *       - jwtheader: []
- *     responses:
- *       200:
- *         description: Ok
- */
-complaintRouter.get(
-  '/:complaintId',
-  validator({ params: complaintIdSchema }),
-  complaintsController.getByIdComplaint,
-);
-
-/**
- * @openapi
- * /complaint/{complaintId}:
  *   delete:
  *     summary: delete complaint by id
  *     tags: [Complaint]
