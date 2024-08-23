@@ -24,7 +24,6 @@ export const updateProjectSchema = Joi.object<IProjectUpdate>({
     .valid(...Object.values(ProjectTypes))
     .optional(),
   price: Joi.number().optional(),
-  paymentInfo: Joi.string().optional(),
   site: Joi.string().uri().optional(),
 });
 

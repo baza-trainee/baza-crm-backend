@@ -177,8 +177,6 @@ projectRouter.patch(
  *                   - strong
  *               price:
  *                 type: number
- *               paymentInfo:
- *                 type: string
  *               site:
  *                 type: string
  *             example:
@@ -187,7 +185,6 @@ projectRouter.patch(
  *               projectPoints: 5
  *               projectType: free
  *               price: 0
- *               paymentInfo: text
  *               site: text
  *     security:
  *       - jwtheader: []

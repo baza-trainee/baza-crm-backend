@@ -15,5 +15,4 @@ export interface IProjectUpdate {
   projectType: ProjectTypes;
   price: number;
   site: string;
-  paymentInfo: string;
 }

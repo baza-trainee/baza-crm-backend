@@ -29,9 +29,6 @@ export class Project {
   @Column({ nullable: true })
   site?: string;
 
-  @Column({ type: 'text', nullable: true })
-  paymentInfo?: string;
-
   @OneToMany(
     () => ProjectRequirment,
     (projectRequirment) => projectRequirment.project,
