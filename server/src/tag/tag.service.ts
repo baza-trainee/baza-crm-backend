@@ -13,6 +13,12 @@ export const findTagById = async (id: number) => {
   return tag;
 };
 
+export const findTagByName = async (name:string)=>{
+  const tag = await tagRepository.findOne({ where: { name } });
+  if (tag === null) throw new Error('Tag not found');
+  return tag;
+}
+
 export const createTag = async (dto: ICreateTag) => {
   const tag = await tagRepository.create(dto);
 

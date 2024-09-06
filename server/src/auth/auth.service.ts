@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import * as userServices from '../user/user.service';
+import * as tagService from '../tag/tag.service'
 import * as userRequestService from '../user-request/user-request.service';
 import { signJWT } from '../jwt/jwt.service';
 import getConfigValue from '../config/config';
@@ -15,6 +16,12 @@ export const userRegistration = async (email: string, password: string) => {
   const hashPassword = await bcrypt.hash(password, SALT);
   const data = { email, password: hashPassword };
   const newUser = await userServices.createUser(data, userRequest);
+  try {
+    const tag = await tagService.findTagByName(userRequest.specialization)
+    await tagService.addTagToUser(newUser.id,tag.id)
+  } catch (error) {
+      console.log(error)
+  }
   return newUser;
 };
 
