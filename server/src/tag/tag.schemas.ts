@@ -3,7 +3,7 @@ import { Tag } from './tag.entity';
 
 export const createTagSchema = Joi.object<Tag>({
   name: Joi.string().required(),
-  color: Joi.string().required(),
+  color: Joi.string().optional(),
   isSpecialization: Joi.boolean().required(),
 });
 

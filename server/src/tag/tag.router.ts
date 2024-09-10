@@ -98,6 +98,7 @@ tagRouter.use(isAdmin);
  *             properties:
  *               color:
  *                 type: string
+ *                 required: false
  *               name:
  *                 type: string
  *               isSpecialization:

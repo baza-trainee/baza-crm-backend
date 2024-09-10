@@ -9,7 +9,7 @@ export class Tag {
   @Column()
   name!: string;
 
-  @Column()
+  @Column({ nullable: true })
   color!: string;
 
   @Column()

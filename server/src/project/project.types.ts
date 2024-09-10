@@ -6,6 +6,8 @@ export interface IProjectCreate {
   projectPoints: number;
   projectType: ProjectTypes;
   price: number;
+  dateStart: string;
+  dateTeam: string;
 }
 
 export interface IProjectUpdate {
@@ -14,7 +16,7 @@ export interface IProjectUpdate {
   projectPoints: number;
   projectType: ProjectTypes;
   price: number;
-  site: string;
   dateTeam: string;
   dateStart: string;
+  links: string[];
 }

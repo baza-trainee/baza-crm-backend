@@ -14,6 +14,8 @@ export const createProjectSchema = Joi.object<IProjectCreate>({
     .valid(...Object.values(ProjectTypes))
     .required(),
   price: Joi.number().required(),
+  dateStart: Joi.string().optional(),
+  dateTeam: Joi.string().optional(),
 });
 
 export const updateProjectSchema = Joi.object<IProjectUpdate>({
@@ -24,9 +26,9 @@ export const updateProjectSchema = Joi.object<IProjectUpdate>({
     .valid(...Object.values(ProjectTypes))
     .optional(),
   price: Joi.number().optional(),
-  site: Joi.string().uri().optional(),
   dateTeam: Joi.string().optional(),
   dateStart: Joi.string().optional(),
+  links: Joi.array().optional(),
 });
 
 export const updateProjectStatusSchema = Joi.object({

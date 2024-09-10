@@ -86,12 +86,18 @@ projectRouter.use(isAdmin);
  *                   - strong
  *               price:
  *                 type: number
+ *               dateStart:
+ *                 type: string
+ *               dateTeam:
+ *                 type: string
  *             example:
  *               description: text
  *               name: text
  *               projectPoints: 5
  *               projectType: free
  *               price: 0
+ *               dateStart: 08/17/2024
+ *               dateTeam: 09/17/2024
  *     security:
  *       - jwtheader: []
  *     responses:
@@ -177,21 +183,23 @@ projectRouter.patch(
  *                   - strong
  *               price:
  *                 type: number
- *               site:
- *                 type: string
  *               dateStart:
  *                 type: string
  *               dateTeam:
  *                 type: string
+ *               links:
+ *                 type: array
+ *                 items: 
+ *                   type: stirng
  *             example:
  *               description: text
  *               name: text
  *               projectPoints: 5
  *               projectType: free
  *               price: 0
- *               site: text
  *               dateStart: 08/17/2024
  *               dateTeam: 09/17/2024
+ *               links: ["test.com","localhost.com"]
  *     security:
  *       - jwtheader: []
  *     responses:

@@ -7,7 +7,9 @@ const projectRepository = AppDataSource.getRepository(Project);
 
 export const findAllPojects = async () => {
   // TODO add caching
-  const projects = await projectRepository.find();
+  const projects = await projectRepository.find({
+    relations: { projectRequirments: true, projectMember: true },
+  });
   return projects;
 };
 

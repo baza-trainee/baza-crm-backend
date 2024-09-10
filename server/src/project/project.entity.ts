@@ -27,13 +27,14 @@ export class Project {
   price?: number;
 
   @Column({ nullable: true })
-  site?: string;
-
-  @Column({ nullable: true })
   dateStart!: string;
 
   @Column({ nullable: true })
   dateTeam!: string;
+
+  // array in json
+  @Column({ nullable: true, type: 'text', array: true })
+  links!: string[];
 
   @OneToMany(
     () => ProjectRequirment,

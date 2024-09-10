@@ -20,8 +20,8 @@ export const findTagByName = async (name:string)=>{
 }
 
 export const createTag = async (dto: ICreateTag) => {
+  if(dto.isSpecialization && !dto.color) throw new Error('Specialization must have a color')
   const tag = await tagRepository.create(dto);
-
   const result = await tagRepository.save(tag);
 
   return result;
