@@ -1,20 +1,34 @@
-import { IsNull, Not } from 'typeorm';
+import { IsNull, LessThan, Not } from 'typeorm';
 import { AppDataSource } from '../db/data-source';
 import { UserRequest } from './user-request.entity';
 import { ICreateUserRequest } from './user-request.types';
+import { findByEmail } from '../user/user.service';
 
 const userRequestRepository = AppDataSource.getRepository(UserRequest);
-
-export const checkEmail = async (email: string) => {
-  const result = await userRequestRepository.findOne({ where: { email } });
-  return result !== null;
-};
 
 export const createUserRequest = async (
   createUserRequestDto: ICreateUserRequest,
 ) => {
-  const newRequest = userRequestRepository.create(createUserRequestDto);
+  const request = await userRequestRepository.findOne({
+    where: {
+      email: createUserRequestDto.email,
+    },
+  });
+  if (request) throw new Error('Request already exist');
+  try {
+    const user = await findByEmail(createUserRequestDto.email);
+    if (user) throw new Error('User already exist');
+  } catch (error: any) {
+    if (error.message === 'User already exist') {
+      throw error;
+    }
+  }
+  const newRequest = userRequestRepository.create({
+    ...createUserRequestDto,
+    created_at: new Date(),
+  });
   const result = await userRequestRepository.save(newRequest);
+  // TODO add sending email expires 6 month
 };
 
 export const resolveUserRequest = async (id: number, accepted: boolean) => {
@@ -47,7 +61,9 @@ export const getById = async (requestId: number) => {
 };
 
 export const getByEmail = async (email: string) => {
-  const request = await userRequestRepository.findOne({ where: { email } });
+  const request = await userRequestRepository.findOne({
+    where: { email, expired_At: LessThan(new Date()) },
+  });
   if (request === null) {
     throw new Error('User request not found');
   }

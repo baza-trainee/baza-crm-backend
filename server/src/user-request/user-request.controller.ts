@@ -3,8 +3,6 @@ import controllerWrapper from '../decorators/controller-wrapper';
 import * as userRequestService from './user-request.service';
 
 const createUserRequest = async (req: Request, res: Response) => {
-  if (await userRequestService.checkEmail(req.body.email))
-    throw new Error('Request with this email exists');
   await userRequestService.createUserRequest(req.body);
   res.json({ status: true });
 };

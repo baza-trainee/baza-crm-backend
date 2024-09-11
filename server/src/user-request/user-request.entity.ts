@@ -35,4 +35,10 @@ export class UserRequest implements ICreateUserRequest {
 
   @Column({ nullable: true })
   isAccepted!: boolean;
+
+  @Column({ nullable: true })
+  expired_At!: Date;
+
+  @Column({ nullable: true })
+  created_at!: Date;
 }
