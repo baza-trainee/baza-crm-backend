@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import * as userServices from '../user/user.service';
-import * as tagService from '../tag/tag.service'
+import * as tagService from '../tag/tag.service';
 import * as userRequestService from '../user-request/user-request.service';
 import { signJWT } from '../jwt/jwt.service';
 import getConfigValue from '../config/config';
@@ -17,10 +17,10 @@ export const userRegistration = async (email: string, password: string) => {
   const data = { email, password: hashPassword };
   const newUser = await userServices.createUser(data, userRequest);
   try {
-    const tag = await tagService.findTagByName(userRequest.specialization)
-    await tagService.addTagToUser(newUser.id,tag.id)
+    const tag = await tagService.findTagByName(userRequest.specialization);
+    await tagService.addTagToUser(newUser.id, tag.id);
   } catch (error) {
-      console.log(error)
+    console.log(error);
   }
   return newUser;
 };
@@ -40,9 +40,6 @@ export const userLogin = async (email: string, password: string) => {
   if (user.id === 1) {
     payload.isAdmin = true;
   }
-  if (user.discord) {
-    payload.discordLinked = true;
-  }
 
   const token = signJWT(payload, '24h');
 
@@ -51,6 +48,7 @@ export const userLogin = async (email: string, password: string) => {
     user: {
       id: user.id,
       email: user.email,
+      discordLinked: user.discord ? true : false,
     },
   };
   if (user.id === 1) {

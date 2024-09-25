@@ -11,6 +11,7 @@ interface IConfig {
   SMTP_PASSWORD: string;
   SMTP_USER: string;
   BASE_URL: string;
+  BASE_FRONT_URL: string;
   SMTP_SECURE: boolean;
   SMTP_PORT: number;
   SMTP_HOST: string;
@@ -29,6 +30,7 @@ const envSchema = Joi.object<IConfig>({
     .valid('development', 'production', 'test')
     .default('development'),
   BASE_URL: Joi.string().uri().required(),
+  BASE_FRONT_URL: Joi.string().uri().required(),
   DISCORD_BOT_TOKEN: Joi.string().required(),
   GUILD_DISCORD_ID: Joi.string().required(),
   JWT_SECRET: Joi.string().required(),

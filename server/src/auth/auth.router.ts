@@ -1,6 +1,10 @@
 import { Router } from 'express';
 import validator from '../validator/validator';
-import { createUserSchema, loginUserSchema } from './auth.schemas';
+import {
+  confirmCodeSchema,
+  createUserSchema,
+  loginUserSchema,
+} from './auth.schemas';
 import authController from './auth.controller';
 import { getUserJWT } from '../shared/middlewares/getUserJWT';
 
@@ -26,12 +30,12 @@ const authRouter = Router();
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               code:
  *                 type: string
  *               password:
  *                 type: string
  *             example:
- *               email: admin@gmail.com
+ *               code: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
  *               password: adminTestPass
  *     responses:
  *       200:
@@ -73,6 +77,34 @@ authRouter.post(
   '/login',
   validator({ body: loginUserSchema }),
   authController.login,
+);
+
+/**
+ * @openapi
+ * /auth/confirmRegisterCode:
+ *   post:
+ *     summary: Confirm code from email
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               code:
+ *                 type: string
+ *                 required: true
+ *             example:
+ *               code: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+ *     responses:
+ *       200:
+ *         description: Ok
+ */
+authRouter.post(
+  '/confirmRegisterCode',
+  validator({ body: confirmCodeSchema }),
+  authController.confirmRegisterCode,
 );
 
 /**

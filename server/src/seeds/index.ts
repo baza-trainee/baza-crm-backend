@@ -63,13 +63,28 @@ const initUsers = async () => {
 };
 
 const initTags = async () => {
+  const set = new Set();
   const tagRepo = AppDataSource.getRepository(Tag);
   const tags = new Array(20)
     .fill(null)
     .map((_) => {
+      let name;
+      while (true) {
+        name = faker.hacker.adjective();
+        if (set.has(name)) {
+          name = name + getRandomInt(0, 9);
+          if (!set.has(name)) {
+            set.add(name);
+            break;
+          }
+        } else {
+          set.add(name);
+          break;
+        }
+      }
       return tagRepo.create({
         color: 'red',
-        name: faker.hacker.abbreviation(),
+        name,
         isSpecialization: Boolean(faker.number.int({ min: 0, max: 1 })),
       });
     })

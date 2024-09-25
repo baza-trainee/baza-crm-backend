@@ -162,4 +162,33 @@ userRequestRouter.get(
   userRequestController.getById,
 );
 
+/**
+ * @openapi
+ * /userRequest/resendInvite:
+ *   post:
+ *     summary: resend invite to user email
+ *     tags: [User request]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *             example:
+ *               email: admin@gmail.com
+ *     security:
+ *       - jwtheader: []
+ *     responses:
+ *       200:
+ *         description: Ok
+ */
+userRequestRouter.post(
+  '/resendInvite',
+  validator({ body: userRequestSchemas.emailSchema }),
+  userRequestController.resendInvite,
+);
+
 export default ['userRequest', userRequestRouter];

@@ -24,3 +24,7 @@ export const resolveUserRequestSchema = Joi.object().keys({
 export const resolvedQuerySchema = Joi.object().keys({
   resolved: Joi.boolean().default(0),
 });
+
+export const emailSchema = Joi.object().keys({
+  email: Joi.string().required(),
+});

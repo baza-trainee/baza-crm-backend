@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import { ILetter } from './mail.types';
 import getConfigValue from '../config/config';
+import { signJWT } from '../jwt/jwt.service';
 
 const nodemailerConfig = {
   host: getConfigValue('SMTP_HOST'),
@@ -15,28 +16,30 @@ const nodemailerConfig = {
   },
 };
 
-const BASE_URL = getConfigValue('BASE_URL');
+const BASE_FRONT_URL = getConfigValue('BASE_FRONT_URL');
 
 const transporter = nodemailer.createTransport(nodemailerConfig);
 
 const sendEmail = async (letter: ILetter) =>
   await transporter.sendMail({ ...letter, from: getConfigValue('SMTP_FROM') });
 
-export const sendChangePWEmail = async (email: string, link: string) => {
+/* 
+TODO
+Add queue for proccesing email and discrod jobs
+*/
+
+export const sendRegisterEmail = async (email: string) => {
+  const jwt = signJWT({ email }, '0.5y');
   const letter = {
     to: email,
-    subject: 'Change password',
-    html: `<h2>Hi, ${email}.</h2>
-    <a target="_blank" href="${BASE_URL}${link}">Click here</a>
-    <p>Regards, Baza Trainee Ukraine</p>
-    <p>Thanks!</p>`,
+    subject: 'Register link',
+    html: `<a href='${BASE_FRONT_URL}auth/confirmRegisterCode?code=${jwt}'> Link </a>`,
   };
-
   try {
-    await sendEmail(letter);
-    console.log('success');
+    const result = await sendEmail(letter);
+    console.log(result);
   } catch (error) {
     console.error(error);
-    throw new Error('Sorry, your message was not sent');
+    throw error;
   }
 };

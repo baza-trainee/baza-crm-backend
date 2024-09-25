@@ -3,6 +3,7 @@ import { AppDataSource } from '../db/data-source';
 import { UserRequest } from './user-request.entity';
 import { ICreateUserRequest } from './user-request.types';
 import { findByEmail } from '../user/user.service';
+import { sendRegisterEmail } from '../mail/mail.service';
 
 const userRequestRepository = AppDataSource.getRepository(UserRequest);
 
@@ -28,7 +29,6 @@ export const createUserRequest = async (
     created_at: new Date(),
   });
   const result = await userRequestRepository.save(newRequest);
-  // TODO add sending email expires 6 month
 };
 
 export const resolveUserRequest = async (id: number, accepted: boolean) => {
@@ -41,6 +41,7 @@ export const resolveUserRequest = async (id: number, accepted: boolean) => {
   }
   request.isAccepted = accepted;
   await userRequestRepository.save(request);
+  if (accepted) await sendRegisterEmail(request.email);
 };
 
 export const getAll = async (skip: number, active = true) => {
@@ -62,10 +63,15 @@ export const getById = async (requestId: number) => {
 
 export const getByEmail = async (email: string) => {
   const request = await userRequestRepository.findOne({
-    where: { email, expired_At: LessThan(new Date()) },
+    where: { email },
   });
   if (request === null) {
     throw new Error('User request not found');
   }
   return request;
+};
+
+export const resendInvite = async (email: string) => {
+  const request = await getByEmail(email);
+  if (request.isAccepted) await sendRegisterEmail(request.email);
 };

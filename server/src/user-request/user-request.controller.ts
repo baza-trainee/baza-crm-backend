@@ -30,9 +30,15 @@ const getById = async (req: Request, res: Response) => {
   res.json(request);
 };
 
+const resendInvite = async (req: Request, res: Response) => {
+  await userRequestService.resendInvite(req.body.email);
+  res.json({ status: true });
+};
+
 export default {
   createUserRequest: controllerWrapper(createUserRequest),
   resolveUserRequest: controllerWrapper(resolveUserRequest),
   getAllRequest: controllerWrapper(getAllRequest),
   getById: controllerWrapper(getById),
+  resendInvite: controllerWrapper(resendInvite),
 };
