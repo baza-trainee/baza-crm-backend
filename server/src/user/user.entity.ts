@@ -65,4 +65,7 @@ export class User {
 
   @Column({ enum: UserStatus, default: UserStatus.ACTIVE })
   status!: UserStatus;
+
+  @Column({ nullable: false })
+  registerAt!: Date;
 }

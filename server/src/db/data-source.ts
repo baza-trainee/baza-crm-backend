@@ -8,11 +8,11 @@ export const AppDataSource = new DataSource({
   username: getConfigValue('DB_USER'),
   password: getConfigValue('DB_PASS'),
   database: getConfigValue('DB_DATABASE'),
-  synchronize: getConfigValue('NODE_ENV') === 'production' ? false : true,
+  synchronize: false,
   logging: false,
   entities: ['**/*.entity.*'],
   subscribers: [],
-  migrations: [],
+  migrations: ['**/migrations/*.ts'],
   // on schema conflict uncomment !! db cleared
   // dropSchema: process.env.NODE_ENV === 'production' ? false : true,
 });

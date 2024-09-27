@@ -28,7 +28,12 @@ export const createUser = async (
     email: _,
     ...userData
   } = userRequest;
-  const newUser = userRepository.create({ email, password, ...userData });
+  const newUser = userRepository.create({
+    email,
+    password,
+    registerAt: new Date(),
+    ...userData,
+  });
 
   const result = await userRepository.save(newUser);
 

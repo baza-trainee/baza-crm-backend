@@ -46,6 +46,7 @@ const initUsers = async () => {
     lastName: faker.person.lastName(),
     phone: faker.phone.number(),
     linkedin: faker.internet.url(),
+    registerAt: new Date(),
   });
   const users = new Array(10).fill(null).map((v, i) => {
     return userRepo.create({
@@ -57,6 +58,7 @@ const initUsers = async () => {
       lastName: faker.person.lastName(),
       phone: faker.phone.number(),
       linkedin: faker.internet.url(),
+      registerAt:new Date()
     });
   });
   await userRepo.save([admin, ...users]);
@@ -162,9 +164,6 @@ const main = async () => {
   if (process.env.NODE_ENV === 'production') {
     throw new Error('PRODUCTION ENV');
   }
-  await AppDataSource.initialize();
-  await AppDataSource.dropDatabase();
-  await AppDataSource.destroy();
   await AppDataSource.initialize();
   await initUsers();
   await initUserRequest();
