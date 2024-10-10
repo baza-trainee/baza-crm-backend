@@ -3,6 +3,7 @@ import { ProjectStatuses, ProjectTypes } from './project.enums';
 import { ProjectRequirment } from './requirment/project-requirment.entity';
 import { ProjectAplication } from './aplication/project-aplication.entity';
 import { ProjectMember } from './member/project-member.entity';
+import { Karma } from '../karma/karma.entity';
 @Entity()
 export class Project {
   @PrimaryGeneratedColumn()
@@ -49,4 +50,7 @@ export class Project {
   projectAplications!: ProjectAplication[];
   @OneToMany(() => ProjectMember, (projectMember) => projectMember.project)
   projectMember!: ProjectMember[];
+
+  @OneToMany(() => Karma, (karma) => karma.project)
+  projectKarmas!: Karma[];
 }

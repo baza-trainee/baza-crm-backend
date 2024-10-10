@@ -10,6 +10,7 @@ import { Tag } from '../tag/tag.entity';
 import { ProjectAplication } from '../project/aplication/project-aplication.entity';
 import { ProjectMember } from '../project/member/project-member.entity';
 import { UserStatus } from './user.enum';
+import { Karma } from '../karma/karma.entity';
 
 @Entity()
 export class User {
@@ -68,4 +69,16 @@ export class User {
 
   @Column({ nullable: false })
   registerAt!: Date;
+
+  @Column({ nullable: false, default: 0 })
+  projectPoints!: number;
+
+  @Column({ nullable: true })
+  karmaPoints!: number;
+
+  @OneToMany(() => Karma, (karma) => karma.karmaGiver)
+  karmaReceivers!: Karma[];
+
+  @OneToMany(() => Karma, (karma) => karma.karmaReceiver)
+  karmaGivers!: Karma[];
 }

@@ -34,10 +34,16 @@ const findProjectById = async (req: Request, res: Response) => {
   res.json(project);
 };
 
+const endProject = async (req: Request, res: Response) => {
+  await projectService.finishProject(Number(req.params.projectId));
+  res.json({ status: true });
+};
+
 export default {
   createProject: controllerWrapper(createProject),
   updateProject: controllerWrapper(updateProject),
   updateProjectStatus: controllerWrapper(updateProjectStatus),
   findAllProject: controllerWrapper(findAllProject),
   findProjectById: controllerWrapper(findProjectById),
+  endProject: controllerWrapper(endProject),
 };

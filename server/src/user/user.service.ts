@@ -1,4 +1,5 @@
 import { AppDataSource } from '../db/data-source';
+import { Project } from '../project/project.entity';
 import { UserRequest } from '../user-request/user-request.entity';
 import { User } from './user.entity';
 import { IUserRegister, IUpdateUser } from './user.types';
@@ -92,4 +93,13 @@ export const linkDiscordToUser = async (userId: number, discordId: string) => {
   }
   user.discord = discordId;
   await userRepository.save(user);
+};
+
+export const addUserPoints = async (project: Project) => {
+  const userIds = project.projectMember.map((el) => el.userId);
+  const users = await Promise.all(userIds.map((el) => findUserById(el)));
+  users.forEach(
+    (el) => (el.projectPoints = el.projectPoints + project.projectPoints),
+  );
+  await userRepository.save(users);
 };

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import controllerWrapper from '../decorators/controller-wrapper';
 import * as UserService from './user.service';
 import { verifyJWT } from '../jwt/jwt.service';
-import { deleteOtpCode, verifyDiscordLinkOtpCode } from '../otp/otp.service';
+import { deleteOtpCode, findOtpCode } from '../otp/otp.service';
 import { OtpType } from '../otp/otp.types';
 
 const findUserById = async (req: Request, res: Response) => {
@@ -38,9 +38,9 @@ const linkDiscord = async (req: Request, res: Response) => {
   if (typeof jwtData === 'string') {
     throw new Error('Something gone wrong');
   }
-  await verifyDiscordLinkOtpCode(jwtData.code);
+  await findOtpCode(jwtData.code, OtpType.Discord);
   await UserService.linkDiscordToUser(userId, jwtData.discordId);
-  await deleteOtpCode(OtpType.Discord, jwtData.code);
+  await deleteOtpCode(jwtData.code, OtpType.Discord);
   return res.json({ status: true });
 };
 

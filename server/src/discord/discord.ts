@@ -141,6 +141,11 @@ const initNewChannel = async (guild: Guild) => {
   console.log(guild.name + ' inited');
 };
 
+export const sendKarmaReviewLink = async (userId: string, code: string) => {
+  const user = await client.users.fetch(String(userId));
+  await user.send(getConfigValue('BASE_FRONT_URL') + 'reviews/?code=' + code);
+};
+
 // const sendUsersInvitations = async (guildId: string, userId: string) => {
 //   const guildData = (() => {})();
 //   const users = userId;

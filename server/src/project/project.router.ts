@@ -55,7 +55,11 @@ projectRouter.get('/', projectController.findAllProject);
  *       200:
  *         description: Ok
  */
-projectRouter.get('/:projectId', projectController.findProjectById);
+projectRouter.get(
+  '/:projectId',
+  validator({ params: projectSchemas.projectIdParamSchema }),
+  projectController.findProjectById,
+);
 
 projectRouter.use(isAdmin);
 
@@ -189,7 +193,7 @@ projectRouter.patch(
  *                 type: string
  *               links:
  *                 type: array
- *                 items: 
+ *                 items:
  *                   type: stirng
  *             example:
  *               description: text
@@ -213,6 +217,30 @@ projectRouter.patch(
     body: projectSchemas.updateProjectSchema,
   }),
   projectController.updateProject,
+);
+
+/**
+ * @openapi
+ * /project/finish/{projectId}:
+ *   post:
+ *     summary: Set project as ended
+ *     tags: [Project]
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     security:
+ *       - jwtheader: []
+ *     responses:
+ *       200:
+ *         description: Ok
+ */
+projectRouter.post(
+  '/finish/:projectId',
+  validator({ params: projectSchemas.projectIdParamSchema }),
+  projectController.endProject,
 );
 
 projectRouter.use('/:projectId/requirment/:tagId', projectRequirmentRouter);
