@@ -4,8 +4,10 @@ WORKDIR /app
 
 COPY ./server/package.* .
 
+COPY ./server/tsconfig.json ./
+
 RUN npm install
 
-COPY ./server .
+COPY ./server/src ./src
 
 CMD ["npm", "run", "dev"]
