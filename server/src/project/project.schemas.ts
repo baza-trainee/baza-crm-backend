@@ -29,6 +29,12 @@ export const updateProjectSchema = Joi.object<IProjectUpdate>({
   dateTeam: Joi.string().optional(),
   dateStart: Joi.string().optional(),
   links: Joi.array().optional(),
+  documents: Joi.array()
+    .items({
+      name: Joi.string().required(),
+      link: Joi.string().required(),
+    })
+    .optional(),
 });
 
 export const updateProjectStatusSchema = Joi.object({

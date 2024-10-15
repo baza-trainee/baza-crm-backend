@@ -19,4 +19,5 @@ export interface IProjectUpdate {
   dateTeam: string;
   dateStart: string;
   links: string[];
+  documents: string;
 }

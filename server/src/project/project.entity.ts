@@ -37,6 +37,9 @@ export class Project {
   @Column({ nullable: true, type: 'text', array: true })
   links!: string[];
 
+  @Column({ nullable: true, default: '[]' })
+  documents!: string;
+
   @OneToMany(
     () => ProjectRequirment,
     (projectRequirment) => projectRequirment.project,

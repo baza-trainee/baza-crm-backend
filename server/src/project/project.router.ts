@@ -195,6 +195,15 @@ projectRouter.patch(
  *                 type: array
  *                 items:
  *                   type: stirng
+ *               documents:
+ *                 type: array
+ *                 items: 
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type:string
+ *                     link:
+ *                       type:string
  *             example:
  *               description: text
  *               name: text
@@ -204,6 +213,7 @@ projectRouter.patch(
  *               dateStart: 08/17/2024
  *               dateTeam: 09/17/2024
  *               links: ["test.com","localhost.com"]
+ *               documents: [{"name":"figma","link":"https://goole.com"}]
  *     security:
  *       - jwtheader: []
  *     responses:

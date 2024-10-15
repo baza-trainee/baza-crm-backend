@@ -34,6 +34,13 @@ export const updateProject = async (
   id: number,
   updateProjectDto: IProjectUpdate,
 ) => {
+  if (updateProjectDto.documents) {
+    try {
+      updateProjectDto.documents = JSON.stringify(updateProjectDto.documents);
+    } catch (e) {
+      throw new Error('Documents format wrong');
+    }
+  }
   await findProjectById(id);
   await projectRepository.update({ id }, updateProjectDto);
   return await findProjectById(id);
@@ -44,7 +51,8 @@ export const updateProjectStatus = async (
   status: ProjectStatuses,
 ) => {
   await findProjectById(id);
-  if(status===ProjectStatuses.ENDED) throw new Error('Finish project not in this route')
+  if (status === ProjectStatuses.ENDED)
+    throw new Error('Finish project not in this route');
   await projectRepository.update({ id }, { projectStatus: status });
   return await findProjectById(id);
 };
@@ -57,6 +65,6 @@ export const finishProject = async (projectId: number) => {
   // TODO Add recalculation karmas
   project.projectStatus = ProjectStatuses.ENDED;
   await projectRepository.save(project);
-  await addUserPoints(project)
+  await addUserPoints(project);
   await sendKarmaReviewLinks(projectId);
 };
